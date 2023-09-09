@@ -24,7 +24,12 @@ app.use('/user', userRouter);
 
 // Not Found
 app.all('*', (req, res, next) => {
-  next(new ErrorAPI(`Can't find this route: ${req.originalUrl}`, 404));
+  next(
+    new ErrorAPI(
+      `Can't find this route: ${req.originalUrl}`,
+      404,
+    ),
+  );
 });
 
 // Error middleware

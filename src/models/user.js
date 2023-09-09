@@ -18,15 +18,44 @@ const userSchema = new mongoose.Schema(
       unique: [true, 'email is already taken'],
       trim: true,
     },
-    password: { type: String, required: [true, 'email is required'] },
-    phone_number: { type: Number, trim: true },
-    picture: { type: String },
-    role: { type: String, enum: ['Admin', 'User', 'Company'], default: 'User' },
-    received_orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
-    requested_orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
-    services: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Service' }],
+    password: {
+      type: String,
+      required: [true, 'email is required'],
+    },
+    phone_number: {
+      type: Number,
+      trim: true,
+    },
+    picture: {
+      type: String,
+    },
+    role: {
+      type: String,
+      enum: ['Admin', 'User', 'Company'],
+      default: 'User',
+    },
+    received_orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
+      },
+    ],
+    requested_orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
+      },
+    ],
+    services: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Service',
+      },
+    ],
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 const UserModel = mongoose.model('User', userSchema);

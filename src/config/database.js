@@ -10,4 +10,8 @@ export const connection = () =>
     .then((conn) => {
       console.log('DB connected successfully ✅');
     })
-    .catch((err) => console.log({ err }));
+    .catch((err) =>
+      console.log({
+        err,
+      }),
+    );
