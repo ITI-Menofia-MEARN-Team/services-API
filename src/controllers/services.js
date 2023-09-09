@@ -1,11 +1,11 @@
-import asyncHandler from "express-async-handler";
-import Service from "../models/service.js";
-import ErrorAPI from "../utils/errorAPI.js";
+import asyncHandler from 'express-async-handler';
+import Service from '../models/service.js';
+import ErrorAPI from '../utils/errorAPI.js';
 
 const addNewService = asyncHandler(async (req, res) => {
   const newService = await Service.create(req.body);
   res.status(201).json({
-    status: "success",
+    status: 'success',
     data: {
       service: newService,
     },
@@ -19,7 +19,7 @@ const getAllServices = asyncHandler(async (req, res) => {
 
   const services = await Service.find({}).skip(skip).limit(limit);
   res.status(200).json({
-    status: "success",
+    status: 'success',
     result: services.length,
     data: {
       services,
@@ -31,11 +31,11 @@ const getService = asyncHandler(async (req, res) => {
   const service = await Service.findById(req.params.id);
   if (!service) {
     return next(
-      new ErrorAPI(`No service found for this id ${req.params.id}`, 404)
+      new ErrorAPI(`No service found for this id ${req.params.id}`, 404),
     );
   }
   res.status(200).json({
-    status: "success",
+    status: 'success',
     data: {
       service,
     },
@@ -50,12 +50,12 @@ const updateService = asyncHandler(async (req, res, next) => {
 
   if (!service) {
     return next(
-      new ErrorAPI(`No service found for this id ${req.params.id}`, 404)
+      new ErrorAPI(`No service found for this id ${req.params.id}`, 404),
     );
   }
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
     data: {
       service,
     },
@@ -66,11 +66,11 @@ const deleteService = asyncHandler(async (req, res) => {
   const service = await Service.findByIdAndDelete(req.params.id);
   if (!service) {
     return next(
-      new ErrorAPI(`No service found for this id ${req.params.id}`, 404)
+      new ErrorAPI(`No service found for this id ${req.params.id}`, 404),
     );
   }
   res.status(204).json({
-    status: "success",
+    status: 'success',
     data: null,
   });
 });
