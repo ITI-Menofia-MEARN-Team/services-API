@@ -1,11 +1,9 @@
 import express from 'express';
-
 import dotenv from 'dotenv';
 import { connection } from './config/database.js';
-
 import ErrorAPI from './utils/errorAPI.js';
 import globalError from './middlewares/error.js';
-
+import userRouter from './routes/user.js';
 // Configuration
 dotenv.config();
 connection();
@@ -17,6 +15,8 @@ const app = express();
 app.use(express.json());
 
 // Routes
+app.use("/user", userRouter);
+
 
 // Not Found
 app.all('*', (req, res, next) => {
