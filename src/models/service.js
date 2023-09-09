@@ -20,8 +20,12 @@ const serviceSchema = new mongoose.Schema(
     props: [String],
     extra_props: [
       {
-        price: { type: Number },
-        description: { type: String },
+        price: {
+          type: Number,
+        },
+        description: {
+          type: String,
+        },
       },
     ],
     category: {
@@ -31,10 +35,15 @@ const serviceSchema = new mongoose.Schema(
     company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'service must be belong to a user(company)'],
+      required: [
+        true,
+        'service must be belong to a user(company)',
+      ],
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+  },
 );
 
 const Service = mongoose.model('Service', serviceSchema);

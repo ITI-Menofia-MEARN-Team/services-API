@@ -10,6 +10,10 @@ import {
 const router = express.Router();
 
 router.route('/').post(addNewService).get(getAllServices);
-router.route('/:id').get(getService).patch(updateService).delete(deleteService);
+router
+  .route('/:id')
+  .get(getService)
+  .patch(updateService)
+  .delete(deleteService);
 
 export default router;
