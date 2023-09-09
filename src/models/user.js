@@ -1,20 +1,34 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
-    full_name: { type: String, required: true },
-    username: { type: String, unique: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    phone_number: { type: Number },
-    picture: { type: String},
-    role: { type: String, enum: ["Admin", "User","Company"], default: "user" },
-    received_orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Orders"}],
-    requested_orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Orders"}],
-    services: [{ type: mongoose.Schema.Types.ObjectId, ref: "Service" }],
-},
-    { timestamps: true }
+const userSchema = new mongoose.Schema(
+  {
+    full_name: {
+      type: String,
+      required: [true, 'full_name is required'],
+      trim: true,
+    },
+    username: {
+      type: String,
+      unique: [true, 'username is already taken'],
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: [true, 'email is required'],
+      unique: [true, 'email is already taken'],
+      trim: true,
+    },
+    password: { type: String, required: [true, 'email is required'] },
+    phone_number: { type: Number, trim: true },
+    picture: { type: String },
+    role: { type: String, enum: ['Admin', 'User', 'Company'], default: 'User' },
+    received_orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+    requested_orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+    services: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Service' }],
+  },
+  { timestamps: true },
 );
 
-const UserModel = mongoose.model("User", userSchema);
+const UserModel = mongoose.model('User', userSchema);
 
 export default UserModel;
