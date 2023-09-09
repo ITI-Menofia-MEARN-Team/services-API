@@ -1,12 +1,11 @@
-import express from "express";
 
-import dotenv from "dotenv";
-import { connection } from "./config/database.js";
-
-import ErrorAPI from "./utils/errorAPI.js";
-import globalError from "./middlewares/error.js";
-
-import servicesRouter from "./routes/services.js";
+import express from 'express';
+import dotenv from 'dotenv';
+import { connection } from './config/database.js';
+import ErrorAPI from './utils/errorAPI.js';
+import globalError from './middlewares/error.js';
+import userRouter from './routes/user.js';
+import servicesRouter from './routes/services.js';
 
 // Configuration
 dotenv.config();
@@ -20,6 +19,9 @@ app.use(express.json());
 
 // Routes
 app.use("/services", servicesRouter);
+app.use("/user", userRouter);
+
+
 // Not Found
 app.all("*", (req, res, next) => {
   next(new ErrorAPI(`Can't find this route: ${req.originalUrl}`, 404));
