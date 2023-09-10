@@ -20,6 +20,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
 });
 
 
+
 const addUser = asyncHandler(async (req, res) => {
   //create user
   const hashedPassword = await bcrypt.hash(

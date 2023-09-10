@@ -14,6 +14,7 @@ import {
 } from '../validations/user.js';
 
 const router = express.Router();
+
 router
   .route('/')
   .get(getAllUsers)

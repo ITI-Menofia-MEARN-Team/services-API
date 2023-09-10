@@ -5,6 +5,7 @@ import ErrorAPI from './utils/errorAPI.js';
 import globalError from './middlewares/error.js';
 import orderRouter from './routes/order.js';
 import userRouter from './routes/user.js';
+import authRouter from './routes/auth.js';
 import servicesRouter from './routes/services.js';
 import categoryRouter from './routes/category.js';
 import extraPropsRouter from './routes/extraProp.js';
@@ -25,6 +26,7 @@ app.use('/service', servicesRouter);
 app.use('/user', userRouter);
 app.use('/category', categoryRouter);
 app.use('/extraProp', extraPropsRouter);
+app.use('/auth', authRouter);
 
 // Not Found
 app.all('*', (req, res, next) => {
