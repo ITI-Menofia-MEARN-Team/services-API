@@ -34,16 +34,9 @@ const getAllServices = asyncHandler(async (req, res) => {
 });
 
 const getService = asyncHandler(async (req, res) => {
-  const service = await Service.findById(
-    req.params.id,
-  ).populate('company');
+  const service = await Service.findById(req.params.id).populate('company');
   if (!service) {
-    return next(
-      new ErrorAPI(
-        `No service found for this id ${req.params.id}`,
-        404,
-      ),
-    );
+    return next(new ErrorAPI(`No service found for this id ${req.params.id}`, 404));
   }
   res.status(200).json({
     status: 'success',
@@ -53,46 +46,28 @@ const getService = asyncHandler(async (req, res) => {
   });
 });
 
-const updateService = asyncHandler(
-  async (req, res, next) => {
-    const service = await Service.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
+const updateService = asyncHandler(async (req, res, next) => {
+  const service = await Service.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
-    if (!service) {
-      return next(
-        new ErrorAPI(
-          `No service found for this id ${req.params.id}`,
-          404,
-        ),
-      );
-    }
+  if (!service) {
+    return next(new ErrorAPI(`No service found for this id ${req.params.id}`, 404));
+  }
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        service,
-      },
-    });
-  },
-);
+  res.status(200).json({
+    status: 'success',
+    data: {
+      service,
+    },
+  });
+});
 
 const deleteService = asyncHandler(async (req, res) => {
-  const service = await Service.findByIdAndDelete(
-    req.params.id,
-  );
+  const service = await Service.findByIdAndDelete(req.params.id);
   if (!service) {
-    return next(
-      new ErrorAPI(
-        `No service found for this id ${req.params.id}`,
-        404,
-      ),
-    );
+    return next(new ErrorAPI(`No service found for this id ${req.params.id}`, 404));
   }
   res.status(204).json({
     status: 'success',
@@ -100,10 +75,4 @@ const deleteService = asyncHandler(async (req, res) => {
   });
 });
 
-export {
-  addNewService,
-  getAllServices,
-  getService,
-  updateService,
-  deleteService,
-};
+export { addNewService, getAllServices, getService, updateService, deleteService };

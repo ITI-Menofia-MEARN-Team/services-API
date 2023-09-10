@@ -29,19 +29,13 @@ export const addNewServiceValidator = [
     .exists()
     .withMessage('service company is required')
     .isMongoId()
-    .withMessage(
-      'service must be belong to a user(company)',
-    ),
+    .withMessage('service must be belong to a user(company)'),
   check('images')
     .optional()
     .isArray()
     .custom((value) => {
-      if (
-        !value.every((item) => typeof item === 'string')
-      ) {
-        throw new Error(
-          'images must be an array of strings',
-        );
+      if (!value.every((item) => typeof item === 'string')) {
+        throw new Error('images must be an array of strings');
       }
       return true;
     }),
@@ -49,12 +43,8 @@ export const addNewServiceValidator = [
     .optional()
     .isArray()
     .custom((value) => {
-      if (
-        !value.every((item) => typeof item === 'string')
-      ) {
-        throw new Error(
-          'props must be an array of strings',
-        );
+      if (!value.every((item) => typeof item === 'string')) {
+        throw new Error('props must be an array of strings');
       }
       return true;
     }),
@@ -88,10 +78,7 @@ export const updateServiceValidator = [
     .withMessage('service description is required')
     .isString()
     .withMessage('service description must be a string'),
-  check('price')
-    .optional()
-    .isNumeric()
-    .withMessage('invalid service price'),
+  check('price').optional().isNumeric().withMessage('invalid service price'),
   check('category')
     .optional()
     .trim()
@@ -99,22 +86,13 @@ export const updateServiceValidator = [
     .withMessage('service category is required')
     .isString()
     .withMessage('invalid service category'),
-  check('company')
-    .optional()
-    .isMongoId()
-    .withMessage(
-      'service must be belong to a user(company)',
-    ),
+  check('company').optional().isMongoId().withMessage('service must be belong to a user(company)'),
   check('images')
     .optional()
     .isArray()
     .custom((value) => {
-      if (
-        !value.every((item) => typeof item === 'string')
-      ) {
-        throw new Error(
-          'images must be an array of strings',
-        );
+      if (!value.every((item) => typeof item === 'string')) {
+        throw new Error('images must be an array of strings');
       }
       return true;
     }),
@@ -122,12 +100,8 @@ export const updateServiceValidator = [
     .optional()
     .isArray()
     .custom((value) => {
-      if (
-        !value.every((item) => typeof item === 'string')
-      ) {
-        throw new Error(
-          'props must be an array of strings',
-        );
+      if (!value.every((item) => typeof item === 'string')) {
+        throw new Error('props must be an array of strings');
       }
       return true;
     }),

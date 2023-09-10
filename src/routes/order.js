@@ -15,10 +15,7 @@ import {
 } from '../validations/orders.js';
 
 const router = Router();
-router
-  .route('/')
-  .get(getAllOrders)
-  .post(createOrderValidator, AddOrder);
+router.route('/').get(getAllOrders).post(createOrderValidator, AddOrder);
 
 router
   .route('/:id')

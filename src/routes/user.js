@@ -1,11 +1,5 @@
 import express from 'express';
-import {
-  getAllUsers,
-  addUser,
-  getUser,
-  deleteUser,
-  updateUser,
-} from '../controllers/user.js';
+import { getAllUsers, addUser, getUser, deleteUser, updateUser } from '../controllers/user.js';
 import {
   addUserValidator,
   getUserValidator,
@@ -15,10 +9,7 @@ import {
 
 const router = express.Router();
 
-router
-  .route('/')
-  .get(getAllUsers)
-  .post(addUserValidator, addUser);
+router.route('/').get(getAllUsers).post(addUserValidator, addUser);
 
 router
   .route('/:id')

@@ -7,9 +7,7 @@ const getAllUsers = asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
   const limit = req.query.limit * 1 || 100;
   const skip = (page - 1) * limit;
-  const users = await UserModel.find({})
-    .skip(skip)
-    .limit(limit);
+  const users = await UserModel.find({}).skip(skip).limit(limit);
   res.status(200).json({
     status: 'success',
     result: users.length,
@@ -19,14 +17,9 @@ const getAllUsers = asyncHandler(async (req, res) => {
   });
 });
 
-
-
 const addUser = asyncHandler(async (req, res) => {
   //create user
-  const hashedPassword = await bcrypt.hash(
-    req.body.password,
-    8,
-  );
+  const hashedPassword = await bcrypt.hash(req.body.password, 8);
   const userObject = {
     ...req.body,
     password: hashedPassword,
@@ -50,20 +43,14 @@ const getUser = asyncHandler(async (req, res, next) => {
   if (user) {
     res.json(user);
   } else {
-    return next(
-      new ErrorApi(`No User for this id ${id}`, 404),
-    );
+    return next(new ErrorApi(`No User for this id ${id}`, 404));
   }
 });
 
 const deleteUser = asyncHandler(async (req, res, next) => {
-  const user = await UserModel.findByIdAndRemove(
-    req.params.id,
-  );
+  const user = await UserModel.findByIdAndRemove(req.params.id);
   if (!user) {
-    return next(
-      new ErrorApi(`No User for this id ${id}`, 404),
-    );
+    return next(new ErrorApi(`No User for this id ${id}`, 404));
   } else {
     res.json({
       message: 'User deleted successfully',
@@ -83,18 +70,10 @@ const updateUser = asyncHandler(async (req, res, next) => {
     },
   );
   if (!user) {
-    return next(
-      new ErrorApi(`No User for this id ${id}`, 404),
-    );
+    return next(new ErrorApi(`No User for this id ${id}`, 404));
   } else {
     res.json(user);
   }
 });
 
-export {
-  addUser,
-  getUser,
-  getAllUsers,
-  updateUser,
-  deleteUser,
-};
+export { addUser, getUser, getAllUsers, updateUser, deleteUser };

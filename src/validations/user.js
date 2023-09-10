@@ -16,14 +16,12 @@ export const addUserValidator = [
     .isString()
     .withMessage('user name must be a string')
     .custom((value) => {
-      return UserModel.find({ username: value }).then(
-        (username) => {
-          console.log(username.length);
-          if (username.length > 0) {
-            throw 'username is taken!';
-          }
-        },
-      );
+      return UserModel.find({ username: value }).then((username) => {
+        console.log(username.length);
+        if (username.length > 0) {
+          throw 'username is taken!';
+        }
+      });
     }),
   check('email')
     .notEmpty()
@@ -32,13 +30,11 @@ export const addUserValidator = [
     .withMessage('Invalid email address')
     .normalizeEmail()
     .custom((value) => {
-      return UserModel.find({ email: value }).then(
-        (mail) => {
-          if (mail.length > 0) {
-            throw 'mail is taken!';
-          }
-        },
-      );
+      return UserModel.find({ email: value }).then((mail) => {
+        if (mail.length > 0) {
+          throw 'mail is taken!';
+        }
+      });
     }),
   check('password')
     .notEmpty()
@@ -53,27 +49,12 @@ export const addUserValidator = [
     .withMessage(
       'password must be at least 6 characters long with one lowercase letter and one uppercase letter and at least one numbers',
     ),
-  check('phone_number')
-    .optional()
-    .isMobilePhone()
-    .withMessage('invalid phone number'),
-  check('picture')
-    .optional()
-    .isString()
-    .withMessage('invalid picture format'),
+  check('phone_number').optional().isMobilePhone().withMessage('invalid phone number'),
+  check('picture').optional().isString().withMessage('invalid picture format'),
   check('role').default('User'),
-  check('received_orders')
-    .optional()
-    .isMongoId()
-    .withMessage('invalid order format'),
-  check('requested_orders')
-    .optional()
-    .isMongoId()
-    .withMessage('invalid order format'),
-  check('services')
-    .optional()
-    .isMongoId()
-    .withMessage('invalid service format'),
+  check('received_orders').optional().isMongoId().withMessage('invalid order format'),
+  check('requested_orders').optional().isMongoId().withMessage('invalid order format'),
+  check('services').optional().isMongoId().withMessage('invalid service format'),
   validation,
 ];
 
@@ -104,14 +85,12 @@ export const updateUserValidator = [
     .isString()
     .withMessage('user name must be a string')
     .custom((value) => {
-      return UserModel.find({ username: value }).then(
-        (username) => {
-          console.log(username.length);
-          if (username.length > 0) {
-            throw 'username is taken!';
-          }
-        },
-      );
+      return UserModel.find({ username: value }).then((username) => {
+        console.log(username.length);
+        if (username.length > 0) {
+          throw 'username is taken!';
+        }
+      });
     }),
   check('email')
     .optional()
@@ -121,13 +100,11 @@ export const updateUserValidator = [
     .withMessage('Invalid email address')
     .normalizeEmail()
     .custom((value) => {
-      return UserModel.find({ email: value }).then(
-        (mail) => {
-          if (mail.length > 0) {
-            throw 'mail is taken!';
-          }
-        },
-      );
+      return UserModel.find({ email: value }).then((mail) => {
+        if (mail.length > 0) {
+          throw 'mail is taken!';
+        }
+      });
     }),
   check('password')
     .optional()
@@ -142,26 +119,11 @@ export const updateUserValidator = [
     .withMessage(
       'password must be at least 6 characters long with one lowercase letter and one uppercase letter and at least one numbers',
     ),
-  check('phone_number')
-    .optional()
-    .isMobilePhone()
-    .withMessage('invalid phone number'),
-  check('picture')
-    .optional()
-    .isString()
-    .withMessage('invalid picture format'),
+  check('phone_number').optional().isMobilePhone().withMessage('invalid phone number'),
+  check('picture').optional().isString().withMessage('invalid picture format'),
 
-  check('received_orders')
-    .optional()
-    .isMongoId()
-    .withMessage('invalid order format'),
-  check('requested_orders')
-    .optional()
-    .isMongoId()
-    .withMessage('invalid order format'),
-  check('services')
-    .optional()
-    .isMongoId()
-    .withMessage('invalid service format'),
+  check('received_orders').optional().isMongoId().withMessage('invalid order format'),
+  check('requested_orders').optional().isMongoId().withMessage('invalid order format'),
+  check('services').optional().isMongoId().withMessage('invalid service format'),
   validation,
 ];
