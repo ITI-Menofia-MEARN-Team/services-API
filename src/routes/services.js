@@ -6,14 +6,22 @@ import {
   updateService,
   deleteService,
 } from '../controllers/services.js';
-
+import {
+  addNewServiceValidator,
+  getServiceValidator,
+  deleteServiceValidator,
+  updateServiceValidator,
+} from '../validations/service.js';
 const router = express.Router();
 
-router.route('/').post(addNewService).get(getAllServices);
+router
+  .route('/')
+  .post(addNewServiceValidator, addNewService)
+  .get(getAllServices);
 router
   .route('/:id')
-  .get(getService)
-  .patch(updateService)
-  .delete(deleteService);
+  .get(getServiceValidator, getService)
+  .patch(updateServiceValidator, updateService)
+  .delete(deleteServiceValidator, deleteService);
 
 export default router;
