@@ -5,7 +5,7 @@ import ErrorAPI from './utils/errorAPI.js';
 import globalError from './middlewares/error.js';
 import orderRouter from './routes/order.js';
 import userRouter from './routes/user.js';
-import registerRouter from './routes/auth.js';
+import authRouter from './routes/auth.js';
 import servicesRouter from './routes/services.js';
 
 // Configuration
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use('/order', orderRouter);
 app.use('/service', servicesRouter);
 app.use('/user', userRouter);
-app.use('/register', registerRouter);
+app.use('/auth', authRouter);
 
 // Not Found
 app.all('*', (req, res, next) => {

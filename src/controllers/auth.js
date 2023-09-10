@@ -6,7 +6,8 @@ import ErrorApi from '../utils/errorAPI.js';
 
 export const registerUser = asyncHandler(
   async (req, res, next) => {
-    const { full_name, email, password, role } = req.body;
+    const { full_name, email, password, username } =
+      req.body;
 
     const oldUser = await UserModel.findOne({
       email: email,
@@ -22,25 +23,27 @@ export const registerUser = asyncHandler(
       full_name,
       email: email.toLowerCase(),
       password: hashedPassword,
-      role,
+      username: username,
+      role: 'User',
     });
 
-    const token = await jwt.sign(
+    const token = jwt.sign(
       {
         full_name: newUser.full_name,
         email: newUser.email,
         password,
+        username: newUser.username,
         role: newUser.role,
       },
       process.env.TOKEN_KEY,
       { expiresIn: '3h' },
     );
-    newUser.token = token;
     await newUser.save();
     res.status(201).json({
       status: 'success',
       data: {
         user: newUser,
+        token,
       },
     });
   },
@@ -48,7 +51,7 @@ export const registerUser = asyncHandler(
 
 export const loginUser = asyncHandler(
   async (req, res, next) => {
-    const { email, password } = req.body;
+    const { full_name, email, password } = req.body;
 
     if (!email || !password) {
       return next(
@@ -58,23 +61,21 @@ export const loginUser = asyncHandler(
         ),
       );
     }
-
     const user = await UserModel.findOne({ email: email });
     if (
       user &&
       (await bcrypt.compare(password, user.password))
     ) {
-      // Create token
       const token = jwt.sign(
         { full_name, email, password },
         process.env.TOKEN_KEY,
         { expiresIn: '3h' },
       );
-      user.token = token;
       res.status(201).json({
         status: 'success',
         data: {
           user: user,
+          token,
         },
       });
     } else {

@@ -20,10 +20,10 @@ export const getAllUsers = asyncHandler(
   },
 );
 
-export const AddUser = asyncHandler(async (req, res) => {
+export const addUser = asyncHandler(async (req, res) => {
   const newUser = await UserModel.create(req.body);
   res.status(201).json({
-    status: "success",
+    status: 'success',
     data: {
       user: newUser,
     },
