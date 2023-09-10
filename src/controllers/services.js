@@ -18,6 +18,10 @@ const getAllServices = asyncHandler(async (req, res) => {
   const skip = (page - 1) * limit;
 
   const services = await Service.find({})
+    .populate({
+      path: 'company',
+      select: 'full_name -_id',
+    })
     .skip(skip)
     .limit(limit);
   res.status(200).json({
@@ -30,7 +34,9 @@ const getAllServices = asyncHandler(async (req, res) => {
 });
 
 const getService = asyncHandler(async (req, res) => {
-  const service = await Service.findById(req.params.id);
+  const service = await Service.findById(
+    req.params.id,
+  ).populate('company');
   if (!service) {
     return next(
       new ErrorAPI(
