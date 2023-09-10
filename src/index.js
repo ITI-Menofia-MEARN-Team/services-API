@@ -6,6 +6,8 @@ import globalError from './middlewares/error.js';
 import orderRouter from './routes/order.js';
 import userRouter from './routes/user.js';
 import servicesRouter from './routes/services.js';
+import categoryRouter from './routes/category.js';
+import extraPropsRouter from './routes/extraProp.js';
 
 // Configuration
 dotenv.config();
@@ -21,6 +23,8 @@ app.use(express.json());
 app.use('/order', orderRouter);
 app.use('/service', servicesRouter);
 app.use('/user', userRouter);
+app.use('/category', categoryRouter);
+app.use('/extraProp', extraPropsRouter);
 
 // Not Found
 app.all('*', (req, res, next) => {
