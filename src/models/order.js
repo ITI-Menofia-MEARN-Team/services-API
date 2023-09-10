@@ -20,6 +20,10 @@ const OrderSchema = new mongoose.Schema(
       ref: 'Service',
       required: [true, 'order must have one service'],
     },
+    extra_props: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ExtraProp',
+    },
   },
   {
     timestamps: true,

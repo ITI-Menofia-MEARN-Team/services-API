@@ -8,6 +8,16 @@ export const getAllOrders = asyncHandler(
     const limit = req.query.limit * 1 || 100;
     const skip = (page - 1) * limit;
     const orders = await OrderModel.find({})
+      .populate({ path: 'user', select: 'full_name -_id' })
+      .populate({
+        path: 'company',
+        select: 'full_name -_id',
+      })
+      .populate({ path: 'service', select: 'title -_id' })
+      .populate({
+        path: 'extra_props',
+        select: 'description -_id',
+      })
       .skip(skip)
       .limit(limit);
     res.status(200).json({
@@ -33,7 +43,12 @@ export const AddOrder = asyncHandler(async (req, res) => {
 
 export const getOrder = asyncHandler(
   async (req, res, next) => {
-    const order = await order.findById(req.params.id);
+    const order = await order
+      .findById(req.params.id)
+      .populate('user')
+      .populate('company')
+      .populate('service')
+      .populate('extra_props');
     if (order) {
       res.json(order);
     } else {
