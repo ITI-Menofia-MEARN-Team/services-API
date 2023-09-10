@@ -20,12 +20,8 @@ const serviceSchema = new mongoose.Schema(
     props: [String],
     extra_props: [
       {
-        price: {
-          type: Number,
-        },
-        description: {
-          type: String,
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ExtraProps',
       },
     ],
     category: {
