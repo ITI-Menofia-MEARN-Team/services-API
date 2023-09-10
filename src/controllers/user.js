@@ -21,10 +21,9 @@ export const getAllUsers = asyncHandler(
 );
 
 export const AddUser = asyncHandler(async (req, res) => {
-  //create user
   const newUser = await UserModel.create(req.body);
   res.status(201).json({
-    status: 'success',
+    status: "success",
     data: {
       user: newUser,
     },
@@ -33,7 +32,7 @@ export const AddUser = asyncHandler(async (req, res) => {
 
 export const getUser = asyncHandler(
   async (req, res, next) => {
-    const user = await User.findById(req.params.id);
+    const user = await UserModel.findById(req.params.id);
     if (user) {
       res.json(user);
     } else {
