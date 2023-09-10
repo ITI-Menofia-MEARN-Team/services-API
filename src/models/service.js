@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const serviceSchema = new mongoose.Schema(
   {
@@ -31,10 +31,7 @@ const serviceSchema = new mongoose.Schema(
     company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: [
-        true,
-        'service must be belong to a user(company)',
-      ],
+      required: [true, 'service must be belong to a user(company)'],
     },
   },
   {

@@ -10,10 +10,6 @@ import {
 const router = Router();
 router.route('/').get(getAllExtraProps).post(AddExtraProp);
 
-router
-  .route('/:id')
-  .get(getExtraProp)
-  .delete(deleteExtraProp)
-  .put(updateExtraProp);
+router.route('/:id').get(getExtraProp).delete(deleteExtraProp).put(updateExtraProp);
 
 export default router;

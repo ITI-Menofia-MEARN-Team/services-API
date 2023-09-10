@@ -14,10 +14,7 @@ import {
 } from '../validations/service.js';
 const router = express.Router();
 
-router
-  .route('/')
-  .post(addNewServiceValidator, addNewService)
-  .get(getAllServices);
+router.route('/').post(addNewServiceValidator, addNewService).get(getAllServices);
 router
   .route('/:id')
   .get(getServiceValidator, getService)

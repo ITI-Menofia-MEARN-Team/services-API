@@ -15,8 +15,5 @@ const ExtraPropSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-const ExtraPropModel = mongoose.model(
-  'ExtraProp',
-  ExtraPropSchema,
-);
+const ExtraPropModel = mongoose.model('ExtraProp', ExtraPropSchema);
 export default ExtraPropModel;

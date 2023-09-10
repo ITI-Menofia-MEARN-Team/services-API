@@ -10,10 +10,7 @@ const OrderSchema = new mongoose.Schema(
     company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: [
-        true,
-        'order must belong to a user(company)',
-      ],
+      required: [true, 'order must belong to a user(company)'],
     },
     service: {
       type: mongoose.Schema.Types.ObjectId,
