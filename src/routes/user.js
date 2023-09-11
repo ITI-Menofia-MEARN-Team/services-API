@@ -6,6 +6,7 @@ import {
   deleteUserValidator,
   updateUserValidator,
 } from '../validations/user.js';
+import { isAllowed, isMine, verifyToken } from '../middlewares/auth.js';
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.route('/').get(getAllUsers).post(addUserValidator, addUser);
 router
   .route('/:id')
   .get(getUserValidator, getUser)
-  .delete(deleteUserValidator, deleteUser)
+  .delete(verifyToken, deleteUserValidator, isMine, deleteUser)
   .patch(updateUserValidator, updateUser);
 
 export default router;

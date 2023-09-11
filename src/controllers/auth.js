@@ -7,36 +7,27 @@ import ErrorApi from '../utils/errorAPI.js';
 export const registerUser = asyncHandler(async (req, res, next) => {
   const { full_name, email, password, username } = req.body;
 
-  const oldUser = await UserModel.findOne({
-    email: email,
-  });
+  const hashedPassword = await bcrypt.hash(password, 8);
 
-  if (oldUser) {
-    return next(new ErrorApi(`User already exists`, 404));
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const newUser = new UserModel({
+  const newUser = await UserModel.create({
     full_name,
     email: email.toLowerCase(),
     password: hashedPassword,
     username: username,
-    role: 'User',
   });
 
   const token = jwt.sign(
     {
+      id: newUser._id,
       full_name: newUser.full_name,
       email: newUser.email,
-      password,
       username: newUser.username,
       role: newUser.role,
     },
     process.env.TOKEN_KEY,
     { expiresIn: '3h' },
   );
-  await newUser.save();
+
   res.status(201).json({
     status: 'success',
     data: {
@@ -47,16 +38,29 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 });
 
 export const loginUser = asyncHandler(async (req, res, next) => {
-  const { full_name, email, password } = req.body;
-
-  if (!email || !password) {
-    return next(new ErrorApi(`Email and password are required `, 404));
+  const { username, email, password } = req.body;
+  if (!email && !username) {
+    return next(new ErrorApi(`Email or username are required `, 400));
   }
-  const user = await UserModel.findOne({ email: email });
+
+  const match = email ? { email } : { username };
+
+  const user = await UserModel.findOne(match);
+
   if (user && (await bcrypt.compare(password, user.password))) {
-    const token = jwt.sign({ full_name, email, password }, process.env.TOKEN_KEY, {
-      expiresIn: '3h',
-    });
+    const token = jwt.sign(
+      {
+        id: user._id,
+        full_name: user.full_name,
+        email: user.email,
+        username: user.username,
+        role: user.role,
+      },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: '3h',
+      },
+    );
     res.status(201).json({
       status: 'success',
       data: {
@@ -65,6 +69,6 @@ export const loginUser = asyncHandler(async (req, res, next) => {
       },
     });
   } else {
-    return next(new ErrorApi(`Please check your input`, 404));
+    return next(new ErrorApi(`Username or password is invalid`, 400));
   }
 });

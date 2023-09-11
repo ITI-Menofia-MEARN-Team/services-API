@@ -32,14 +32,14 @@ export const getExtraProp = asyncHandler(async (req, res, next) => {
   if (extraProp) {
     res.json(extraProp);
   } else {
-    return next(new ErrorApi(`No extraProp for this id ${id}`, 404));
+    return next(new ErrorApi(`No extraProp for this id ${req.params.id}`, 404));
   }
 });
 
 export const deleteExtraProp = asyncHandler(async (req, res, next) => {
   const extraProp = await ExtraPropModel.findByIdAndRemove(req.params.id);
   if (!extraProp) {
-    return next(new ErrorApi(`No extraProp for this id ${id}`, 404));
+    return next(new ErrorApi(`No extraProp for this id ${req.params.id}`, 404));
   } else {
     res.json({
       message: 'extraProp deleted successfully',
@@ -59,7 +59,7 @@ export const updateExtraProp = asyncHandler(async (req, res, next) => {
     },
   );
   if (!extraProp) {
-    return next(new ErrorApi(`No extraProp for this id ${id}`, 404));
+    return next(new ErrorApi(`No extraProp for this id ${req.params.id}`, 404));
   } else {
     res.json(extraProp);
   }
