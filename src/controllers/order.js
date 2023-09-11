@@ -49,14 +49,14 @@ export const getOrder = asyncHandler(async (req, res, next) => {
   if (order) {
     res.json(order);
   } else {
-    return next(new ErrorApi(`No order for this id ${id}`, 404));
+    return next(new ErrorApi(`No order for this id ${req.params.id}`, 404));
   }
 });
 
 export const deleteOrder = asyncHandler(async (req, res, next) => {
   const order = await OrderModel.findByIdAndRemove(req.params.id);
   if (!order) {
-    return next(new ErrorApi(`No order for this id ${id}`, 404));
+    return next(new ErrorApi(`No order for this id ${req.params.id}`, 404));
   } else {
     res.json({
       message: 'order deleted successfully',
@@ -76,7 +76,7 @@ export const updateOrder = asyncHandler(async (req, res, next) => {
     },
   );
   if (!order) {
-    return next(new ErrorApi(`No order for this id ${id}`, 404));
+    return next(new ErrorApi(`No order for this id ${req.params.id}`, 404));
   } else {
     res.json(order);
   }

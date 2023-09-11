@@ -12,9 +12,9 @@ export const addUserValidator = [
   check('username')
     .trim()
     .notEmpty()
-    .withMessage('user name is required')
+    .withMessage('username is required')
     .isString()
-    .withMessage('user name must be a string')
+    .withMessage('username must be a string')
     .custom((value) => {
       return UserModel.find({ username: value }).then((username) => {
         console.log(username.length);
@@ -43,7 +43,7 @@ export const addUserValidator = [
       minLowercase: 1,
       minUppercase: 1,
       minNumbers: 1,
-      minLength: 6,
+      minLength: 8,
       minSymbols: 0,
     })
     .withMessage(
@@ -125,5 +125,40 @@ export const updateUserValidator = [
   check('received_orders').optional().isMongoId().withMessage('invalid order format'),
   check('requested_orders').optional().isMongoId().withMessage('invalid order format'),
   check('services').optional().isMongoId().withMessage('invalid service format'),
+  validation,
+];
+
+// Auth
+export const loginUserValidator = [
+  check('username')
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage('username is required')
+    .isString()
+    .withMessage('username must be a string')
+    .custom((value) => {
+      return UserModel.find({ username: value }).then((username) => {
+        if (username.length === 0) {
+          throw "username doesn't exist!";
+        }
+      });
+    }),
+  check('email')
+    .optional()
+    .notEmpty()
+    .withMessage('user email is required')
+    .isEmail()
+    .withMessage('Invalid email address')
+    .normalizeEmail()
+    .custom((value) => {
+      return UserModel.find({ email: value }).then((email) => {
+        if (email.length === 0) {
+          throw "email doesn't exist!";
+        }
+      });
+    }),
+  check('password').notEmpty().withMessage('password is required'),
+
   validation,
 ];

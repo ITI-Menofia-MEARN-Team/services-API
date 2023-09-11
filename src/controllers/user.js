@@ -43,14 +43,15 @@ const getUser = asyncHandler(async (req, res, next) => {
   if (user) {
     res.json(user);
   } else {
-    return next(new ErrorApi(`No User for this id ${id}`, 404));
+    return next(new ErrorApi(`No User for this id ${req.params.id}`, 404));
   }
 });
 
 const deleteUser = asyncHandler(async (req, res, next) => {
+  console.log('req.params.id): ', req.params.id);
   const user = await UserModel.findByIdAndRemove(req.params.id);
   if (!user) {
-    return next(new ErrorApi(`No User for this id ${id}`, 404));
+    return next(new ErrorApi(`No User for this id ${req.params.id}`, 404));
   } else {
     res.json({
       message: 'User deleted successfully',
@@ -70,7 +71,7 @@ const updateUser = asyncHandler(async (req, res, next) => {
     },
   );
   if (!user) {
-    return next(new ErrorApi(`No User for this id ${id}`, 404));
+    return next(new ErrorApi(`No User for this id ${req.params.id}`, 404));
   } else {
     res.json(user);
   }
