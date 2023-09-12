@@ -16,7 +16,10 @@ const serviceSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'price is required'],
     },
-    images: [String],
+    images: {
+      type: [String],
+      validate: [(array) => array.length >= 0 && array.length <= 4],
+    },
     props: [String],
     extra_props: [
       {

@@ -52,10 +52,8 @@ export const isOrderAllowed = asyncHandler(async (req, res, next) => {
   if (req.currentUser.role === 'Admin') return next();
   const order = await OrderModel.findById(req.params.id);
   const userId = order.user;
-  console.log(`userId: ${typeof userId.toString()}`);
-  console.log(`req.currentUser.id: ${typeof req.currentUser.id}`);
+
   if (req.currentUser.id === userId.toString()) {
-    console.log(`elzohery a5oyaaaaaaaa`);
     return next();
   } else return next(new ErrorApi('You are not authorized!'));
 });

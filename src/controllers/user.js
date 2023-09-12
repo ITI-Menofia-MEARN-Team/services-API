@@ -48,7 +48,6 @@ const getUser = asyncHandler(async (req, res, next) => {
 });
 
 const deleteUser = asyncHandler(async (req, res, next) => {
-  console.log('req.params.id): ', req.params.id);
   const user = await UserModel.findByIdAndRemove(req.params.id);
   if (!user) {
     return next(new ErrorApi(`No User for this id ${req.params.id}`, 404));

@@ -20,6 +20,30 @@ import {
   isMyService,
 } from '../middlewares/auth.js';
 
+import multer from 'multer';
+import ErrorAPI from '../utils/errorAPI.js';
+const diskStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    console.log(`file: ${file}`);
+    cb(null, 'uploads/servicepictures');
+  },
+  filename: function (req, file, cb) {
+    const exe = file.mimetype.split('/')[1];
+    const fileName = `service-${Date.now()}.${exe}`;
+    cb(null, fileName);
+  },
+});
+const fileFilter = (req, file, cb) => {
+  const imageType = file.mimetype.split('/')[0];
+  if (imageType === 'image') {
+    return cb(null, true);
+  } else {
+    return cb(new ErrorAPI('the file must be an image', 400), false);
+  }
+};
+
+const upload = multer({ storage: diskStorage, fileFilter: fileFilter });
+
 const router = express.Router();
 
 router
@@ -27,6 +51,7 @@ router
   .post(
     verifyToken,
     isAllowed('Company', 'Admin'),
+    upload.array('images', 4),
     addNewServiceValidator,
     isTheSameCompany,
     addNewService,
