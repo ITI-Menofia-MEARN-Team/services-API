@@ -24,7 +24,6 @@ import multer from 'multer';
 import ErrorAPI from '../utils/errorAPI.js';
 const diskStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(`file: ${file}`);
     cb(null, 'uploads/servicepictures');
   },
   filename: function (req, file, cb) {
@@ -52,6 +51,16 @@ router
     verifyToken,
     isAllowed('Company', 'Admin'),
     upload.array('images', 4),
+    (req, res, next) => {
+      // Access the uploaded files from req.files
+      const uploadedFiles = req.files;
+
+      // Extract the filenames and add them to the images array in the request body
+      req.body.images = uploadedFiles.map((file) => file.filename);
+
+      // Continue with the rest of your middleware and handlers
+      next();
+    },
     addNewServiceValidator,
     isTheSameCompany,
     addNewService,
