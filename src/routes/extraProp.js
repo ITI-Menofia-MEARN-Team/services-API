@@ -7,9 +7,25 @@ import {
   updateExtraProp,
 } from '../controllers/extraProp.js';
 
-const router = Router();
-router.route('/').get(getAllExtraProps).post(AddExtraProp);
+import {
+  isAllowed,
+  isMine,
+  verifyToken,
+  isTheSameCompany,
+  isMyService,
+  isOrderAllowed,
+} from '../middlewares/auth.js';
 
-router.route('/:id').get(getExtraProp).delete(deleteExtraProp).put(updateExtraProp);
+const router = Router();
+router
+  .route('/')
+  .get(getAllExtraProps)
+  .post(verifyToken, isAllowed('Company', 'Admin'), AddExtraProp);
+
+router
+  .route('/:id')
+  .get(getExtraProp)
+  .delete(verifyToken, isAllowed('Company', 'Admin'), deleteExtraProp)
+  .put(verifyToken, isAllowed('Company', 'Admin'), updateExtraProp);
 
 export default router;

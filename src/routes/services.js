@@ -12,13 +12,30 @@ import {
   deleteServiceValidator,
   updateServiceValidator,
 } from '../validations/service.js';
+import {
+  isAllowed,
+  isMine,
+  verifyToken,
+  isTheSameCompany,
+  isMyService,
+} from '../middlewares/auth.js';
+
 const router = express.Router();
 
-router.route('/').post(addNewServiceValidator, addNewService).get(getAllServices);
+router
+  .route('/')
+  .post(
+    verifyToken,
+    isAllowed('Company', 'Admin'),
+    addNewServiceValidator,
+    isTheSameCompany,
+    addNewService,
+  )
+  .get(getAllServices);
 router
   .route('/:id')
   .get(getServiceValidator, getService)
-  .patch(updateServiceValidator, updateService)
-  .delete(deleteServiceValidator, deleteService);
+  .patch(verifyToken, updateServiceValidator, isMyService, updateService)
+  .delete(verifyToken, deleteServiceValidator, isMyService, deleteService);
 
 export default router;

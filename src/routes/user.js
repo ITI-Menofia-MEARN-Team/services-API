@@ -10,12 +10,12 @@ import { isAllowed, isMine, verifyToken } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.route('/').get(getAllUsers).post(addUserValidator, addUser);
+router.route('/').get(getAllUsers).post(verifyToken, isAllowed('Admin'), addUserValidator, addUser);
 
 router
   .route('/:id')
-  .get(getUserValidator, getUser)
+  .get(verifyToken, getUserValidator, isMine, getUser)
   .delete(verifyToken, deleteUserValidator, isMine, deleteUser)
-  .patch(updateUserValidator, updateUser);
+  .patch(verifyToken, updateUserValidator, isMine, updateUser);
 
 export default router;
