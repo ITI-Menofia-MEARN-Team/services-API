@@ -17,7 +17,6 @@ export const addUserValidator = [
     .withMessage('username must be a string')
     .custom((value) => {
       return UserModel.find({ username: value }).then((username) => {
-        console.log(username.length);
         if (username.length > 0) {
           throw 'username is taken!';
         }
@@ -86,7 +85,6 @@ export const updateUserValidator = [
     .withMessage('user name must be a string')
     .custom((value) => {
       return UserModel.find({ username: value }).then((username) => {
-        console.log(username.length);
         if (username.length > 0) {
           throw 'username is taken!';
         }

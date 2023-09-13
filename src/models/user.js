@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema(
     },
     picture: {
       type: String,
+      default: 'uploads/user/profie.jpg',
     },
     role: {
       type: String,
