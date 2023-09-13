@@ -14,13 +14,25 @@ import {
   deleteOrderValidator,
 } from '../validations/orders.js';
 
+import {
+  isAllowed,
+  isMine,
+  verifyToken,
+  isTheSameCompany,
+  isMyService,
+  isOrderAllowed,
+} from '../middlewares/auth.js';
+
 const router = Router();
-router.route('/').get(getAllOrders).post(createOrderValidator, AddOrder);
+router
+  .route('/')
+  .get(verifyToken, getAllOrders)
+  .post(verifyToken, isAllowed('User'), createOrderValidator, AddOrder);
 
 router
   .route('/:id')
-  .get(getOrderValidator, getOrder)
-  .delete(deleteOrderValidator, deleteOrder)
-  .put(updateOrderValidator, updateOrder);
+  .get(verifyToken, isOrderAllowed, getOrderValidator, getOrder)
+  .delete(verifyToken, isOrderAllowed, deleteOrderValidator, deleteOrder)
+  .put(verifyToken, isOrderAllowed, updateOrderValidator, updateOrder);
 
 export default router;
