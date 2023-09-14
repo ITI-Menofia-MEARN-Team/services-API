@@ -46,7 +46,7 @@ export const addUserValidator = [
       minSymbols: 0,
     })
     .withMessage(
-      'password must be at least 6 characters long with one lowercase letter and one uppercase letter and at least one numbers',
+      'password must be at least 8 characters long with one lowercase letter and one uppercase letter and at least one numbers',
     ),
   check('phone_number').optional().isMobilePhone().withMessage('invalid phone number'),
   check('picture').optional().isString().withMessage('invalid picture format'),

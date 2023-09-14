@@ -9,7 +9,10 @@ import authRouter from './routes/auth.js';
 import servicesRouter from './routes/services.js';
 import categoryRouter from './routes/category.js';
 import extraPropsRouter from './routes/extraProp.js';
-import path from 'path';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // Configuration
 dotenv.config();
 connection();
@@ -17,8 +20,8 @@ connection();
 // Express
 const app = express();
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Global Middlewares
-// app.use('/uploads/user', express.static(path.join(__dirname, 'uploads')));
 
 app.use(express.json());
 
