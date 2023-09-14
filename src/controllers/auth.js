@@ -11,20 +11,22 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 
   const hashedPassword = await bcrypt.hash(password, 8);
 
-  const newUser = await UserModel.create({
+  const user = await UserModel.create({
     full_name,
     email: email.toLowerCase(),
     password: hashedPassword,
     username,
   });
 
+  console.log(user);
+
   const token = jwt.sign(
     {
-      id: newUser._id,
-      full_name: newUser.full_name,
-      email: newUser.email,
-      username: newUser.username,
-      role: newUser.role,
+      id: user._id,
+      full_name: user.full_name,
+      email: user.email,
+      username: user.username,
+      role: user.role,
     },
     process.env.TOKEN_KEY,
     { expiresIn: '3h' },
@@ -39,14 +41,14 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     .json({
       status: 'success',
       data: {
-        user: newUser,
+        user: user,
         token,
       },
     });
 });
 
 export const loginUser = asyncHandler(async (req, res, next) => {
-  const { username, email, password, full_name } = req.body;
+  const { username, email, password } = req.body;
   if (!email && !username) {
     return next(new ErrorApi(`Email or username is required `, 400));
   }
@@ -56,9 +58,19 @@ export const loginUser = asyncHandler(async (req, res, next) => {
   const user = await UserModel.findOne(match);
 
   if (user && (await bcrypt.compare(password, user.password))) {
-    const token = jwt.sign({ full_name, email, password }, process.env.TOKEN_KEY, {
-      expiresIn: '3h',
-    });
+    const token = jwt.sign(
+      {
+        id: user._id,
+        full_name: user.full_name,
+        email: user.email,
+        username: user.username,
+        role: user.role,
+      },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: '3h',
+      },
+    );
 
     res
       .cookie('jwt', token, {
