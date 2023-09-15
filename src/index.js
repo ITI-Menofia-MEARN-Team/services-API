@@ -11,8 +11,8 @@ import categoryRouter from './routes/category.js';
 import extraPropsRouter from './routes/extraProp.js';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import cors from 'cors';
+
 // Configuration
 dotenv.config();
 connection();
@@ -20,9 +20,12 @@ connection();
 // Express
 const app = express();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-// Global Middlewares
 
+// Global Middlewares
+app.use(cors());
 app.use(express.json());
 
 // Routes

@@ -7,7 +7,7 @@ import ErrorApi from '../utils/errorAPI.js';
 const oneDay = 1000 * 60 * 60 * 24;
 
 export const registerUser = asyncHandler(async (req, res, next) => {
-  const { full_name, email, password, username } = req.body;
+  const { full_name, email, password, username, phoneNumber } = req.body;
 
   const hashedPassword = await bcrypt.hash(password, 8);
 
@@ -16,6 +16,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     email: email.toLowerCase(),
     password: hashedPassword,
     username,
+    phoneNumber,
   });
 
   console.log(user);
@@ -34,7 +35,6 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 
   res
     .cookie('jwt', token, {
-      httpOnly: true,
       maxAge: oneDay,
     })
     .status(201)

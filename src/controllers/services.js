@@ -75,4 +75,25 @@ const deleteService = asyncHandler(async (req, res) => {
   });
 });
 
-export { addNewService, getAllServices, getService, updateService, deleteService };
+// Bonus
+const getCompanyServices = asyncHandler(async (req, res) => {
+  const services = await Service.find({ company: req.params.id });
+  if (!services) {
+    return next(new ErrorAPI(`No services found for this Company id ${req.params.id}`, 404));
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      services,
+    },
+  });
+});
+
+export {
+  addNewService,
+  getAllServices,
+  getService,
+  updateService,
+  deleteService,
+  getCompanyServices,
+};
