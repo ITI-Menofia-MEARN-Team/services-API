@@ -35,6 +35,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 
   res
     .cookie('jwt', token, {
+      httpOnly: true,
       maxAge: oneDay,
     })
     .status(201)
