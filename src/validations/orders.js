@@ -9,7 +9,7 @@ export const getOrderValidator = [
 export const createOrderValidator = [
   check('user').isMongoId(),
   check('service').isMongoId(),
-  check('extra_props').isMongoId(),
+  check('extra_props').optional().isMongoId(),
   validation,
 ];
 
