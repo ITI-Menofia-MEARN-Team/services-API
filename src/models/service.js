@@ -28,7 +28,8 @@ const serviceSchema = new mongoose.Schema(
       },
     ],
     category: {
-      type: String,
+      type: mongoose.Types.ObjectId,
+      ref: 'Category',
       required: [true, 'الفئة مطلوبة'],
     },
     company: {
