@@ -26,6 +26,16 @@ export const AddExtraProp = asyncHandler(async (req, res) => {
     },
   });
 });
+export const AddManyExtraProp = asyncHandler(async (req, res) => {
+  //create ExtraProp
+  const newExtraProps = await ExtraPropModel.insertMany(req.body.data);
+  res.status(201).json({
+    status: 'success',
+    data: {
+      extraProps: newExtraProps,
+    },
+  });
+});
 
 export const getExtraProp = asyncHandler(async (req, res, next) => {
   const extraProp = await ExtraPropModel.findById(req.params.id);

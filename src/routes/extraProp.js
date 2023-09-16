@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import {
   AddExtraProp,
+  AddManyExtraProp,
   deleteExtraProp,
   getAllExtraProps,
   getExtraProp,
@@ -21,6 +22,8 @@ router
   .route('/')
   .get(getAllExtraProps)
   .post(verifyToken, isAllowed('Company', 'Admin'), AddExtraProp);
+
+router.route('/addMany').post(verifyToken, isAllowed('Company', 'Admin'), AddManyExtraProp);
 
 router
   .route('/:id')
