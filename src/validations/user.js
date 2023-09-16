@@ -6,38 +6,38 @@ export const addUserValidator = [
   check('full_name')
     .trim()
     .notEmpty()
-    .withMessage('full name is required')
+    .withMessage('الاسم الكامل مطلوب')
     .isString()
-    .withMessage('full name must be a string'),
+    .withMessage('الاسم لا بد ان يتكون من احرف فقط'),
   check('username')
     .trim()
     .notEmpty()
-    .withMessage('username is required')
+    .withMessage('اسم السمتخدم مطلوب')
     .isString()
-    .withMessage('username must be a string')
+    .withMessage('لابد ان يتكون اسم المستخدم مناحرف فقط')
     .custom((value) => {
       return UserModel.find({ username: value }).then((username) => {
         if (username.length > 0) {
-          throw 'username is taken!';
+          throw 'اسم السمتخدم مسجل بالفعل';
         }
       });
     }),
   check('email')
     .notEmpty()
-    .withMessage('user email is required')
+    .withMessage('البريد الالكترونى مطلوب')
     .isEmail()
-    .withMessage('Invalid email address')
+    .withMessage('بريد الكترونى غير صالح')
     .normalizeEmail()
     .custom((value) => {
       return UserModel.find({ email: value }).then((mail) => {
         if (mail.length > 0) {
-          throw 'mail is taken!';
+          throw 'البريد الالكترونى مسجل بالفعل';
         }
       });
     }),
   check('password')
     .notEmpty()
-    .withMessage('password is required')
+    .withMessage('كلمة المرور مطلوبة')
     .isStrongPassword({
       minLowercase: 1,
       minUppercase: 1,
@@ -46,68 +46,68 @@ export const addUserValidator = [
       minSymbols: 0,
     })
     .withMessage(
-      'password must be at least 8 characters long with one lowercase letter and one uppercase letter and at least one numbers',
+      'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، مع حرف صغير وحرف كبير ورقم واحد على الأقل',
     ),
-  check('phone_number').optional().isMobilePhone().withMessage('invalid phone number'),
-  check('picture').optional().isString().withMessage('invalid picture format'),
+  check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
+  check('picture').optional().isString().withMessage('صورة غير صالحة'),
   check('role').default('User'),
-  check('received_orders').optional().isMongoId().withMessage('invalid order format'),
-  check('requested_orders').optional().isMongoId().withMessage('invalid order format'),
-  check('services').optional().isMongoId().withMessage('invalid service format'),
+  check('received_orders').optional().isMongoId().withMessage('طلب غير صالح'),
+  check('requested_orders').optional().isMongoId().withMessage('طلب غير صالح'),
+  check('services').optional().isMongoId().withMessage('خدمة غير صالحة'),
   validation,
 ];
 
 export const getUserValidator = [
-  check('id').isMongoId().withMessage('invalid user id'),
+  check('id').isMongoId().withMessage('رقم السمتخدم غير صالح'),
   validation,
 ];
 
 export const deleteUserValidator = [
-  check('id').isMongoId().withMessage('invalid user id'),
+  check('id').isMongoId().withMessage('رقم مستخدم غير صالح'),
   validation,
 ];
 
 export const updateUserValidator = [
-  check('id').isMongoId().withMessage('invalid user id'),
+  check('id').isMongoId().withMessage('رقم مستخدم غير صالح'),
   check('full_name')
     .optional()
     .trim()
     .notEmpty()
-    .withMessage('full name is required')
+    .withMessage('الاسم الكامل مطلوب')
     .isString()
-    .withMessage('full name must be a string'),
+    .withMessage('لابد ان يتكون الاسم من حروف فقط'),
   check('username')
     .optional()
     .trim()
     .notEmpty()
-    .withMessage('user name is required')
+    .withMessage('اسم المستخدم مطلوب')
     .isString()
-    .withMessage('user name must be a string')
+    .withMessage('لابد ان اسم المستخدم ان يتكون من احرف فقط')
     .custom((value) => {
       return UserModel.find({ username: value }).then((username) => {
         if (username.length > 0) {
-          throw 'username is taken!';
+          throw 'اسم المستخدم مسجل بالفعل';
         }
       });
     }),
   check('email')
     .optional()
     .notEmpty()
-    .withMessage('user email is required')
+    .withMessage('البريد الالكترونى مسجل بالفعل ')
     .isEmail()
-    .withMessage('Invalid email address')
+    .withMessage('بريد الكترونى غير صالح')
     .normalizeEmail()
     .custom((value) => {
       return UserModel.find({ email: value }).then((mail) => {
         if (mail.length > 0) {
-          throw 'mail is taken!';
+          throw 'البريد الالكترونى مسجل بالفعل';
         }
       });
     }),
   check('password')
     .optional()
     .notEmpty()
-    .withMessage('password is required')
+    .withMessage('كلمة المرور مطلوبة ')
     .isStrongPassword({
       minLength: 6,
       minLowercase: 1,
@@ -115,14 +115,14 @@ export const updateUserValidator = [
       minNumbers: 1,
     })
     .withMessage(
-      'password must be at least 6 characters long with one lowercase letter and one uppercase letter and at least one numbers',
+      'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، مع حرف صغير وحرف كبير ورقم واحد على الأقل',
     ),
-  check('phone_number').optional().isMobilePhone().withMessage('invalid phone number'),
-  check('picture').optional().isString().withMessage('invalid picture format'),
+  check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
+  check('picture').optional().isString().withMessage('صورة غير صالحة'),
 
-  check('received_orders').optional().isMongoId().withMessage('invalid order format'),
-  check('requested_orders').optional().isMongoId().withMessage('invalid order format'),
-  check('services').optional().isMongoId().withMessage('invalid service format'),
+  check('received_orders').optional().isMongoId().withMessage('طلب غير صالح'),
+  check('requested_orders').optional().isMongoId().withMessage('طلب غير صالح'),
+  check('services').optional().isMongoId().withMessage('خدمة غير صالحة'),
   validation,
 ];
 
@@ -132,31 +132,31 @@ export const loginUserValidator = [
     .optional()
     .trim()
     .notEmpty()
-    .withMessage('username is required')
+    .withMessage('اسم المستخدم مطلوب')
     .isString()
-    .withMessage('username must be a string')
+    .withMessage('لابد ان يتكون اسم المستخدم من احرف فقط')
     .custom((value) => {
       return UserModel.find({ username: value }).then((username) => {
         if (username.length === 0) {
-          throw "username doesn't exist!";
+          throw 'اسم السمتخدم مسجل بالفعل';
         }
       });
     }),
   check('email')
     .optional()
     .notEmpty()
-    .withMessage('user email is required')
+    .withMessage('البريد الالكترونى مسجل بالفعل ')
     .isEmail()
-    .withMessage('Invalid email address')
+    .withMessage('بريد الكترونى غير صالح')
     .normalizeEmail()
     .custom((value) => {
       return UserModel.find({ email: value }).then((email) => {
         if (email.length === 0) {
-          throw "email doesn't exist!";
+          throw 'البريد الالكترونى غير مسجل';
         }
       });
     }),
-  check('password').notEmpty().withMessage('password is required'),
+  check('password').notEmpty().withMessage('كلمة المرور مطلوبة '),
 
   validation,
 ];

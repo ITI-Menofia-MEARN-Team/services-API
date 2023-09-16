@@ -4,11 +4,11 @@ const ExtraPropSchema = new mongoose.Schema(
   {
     price: {
       type: Number,
-      required: [true, 'price is required'],
+      required: [true, 'السعر مطلوب'],
     },
     description: {
       type: String,
-      required: [true, 'description is required'],
+      required: [true, 'الوصف مطلوب'],
     },
   },
   {

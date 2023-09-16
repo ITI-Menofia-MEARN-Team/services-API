@@ -1,32 +1,32 @@
 import { check } from 'express-validator';
 import validation from '../middleware/validate.js';
 export const getCategoryValidator = [
-  check('id').isMongoId().withMessage('Invalid category id format'),
+  check('id').isMongoId().withMessage('رقم تعريف غير صالح'),
   validation,
 ];
 
 export const createCategoryValidator = [
   check('name')
     .notEmpty()
-    .withMessage('Category name is required')
+    .withMessage('اسم الفئة مطلوب')
     .isLength({ max: 32, min: 3 })
-    .withMessage('Category name length must be 3-32 chars'),
+    .withMessage('يجب أن يتراوح طول اسم الفئة من 3 إلى 32 حرفًا'),
   check('service').isMongoId(),
   validation,
 ];
 
 export const updateCategoryValidator = [
-  check('id').isMongoId().withMessage('Invalid category id format'),
+  check('id').isMongoId().withMessage('رقم تعريف غير صالح'),
   check('name')
     .notEmpty()
-    .withMessage('Category name is required')
+    .withMessage('اسم الفئة مطلوب')
     .isLength({ max: 32, min: 3 })
-    .withMessage('Category name length must be 3-32 chars'),
+    .withMessage('يجب أن يتراوح طول اسم الفئة من 3 إلى 32 حرفًا'),
   check('service').isMongoId().withMessage('Service ID is required'),
   validation,
 ];
 
 export const deleteCategoryValidator = [
-  check('id').isMongoId().withMessage('Invalid category id format'),
+  check('id').isMongoId().withMessage('رقم تعريف غير صالح'),
   validation,
 ];

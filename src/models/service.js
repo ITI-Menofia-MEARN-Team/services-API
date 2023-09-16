@@ -5,16 +5,16 @@ const serviceSchema = new mongoose.Schema(
     title: {
       type: String,
       trim: true,
-      required: [true, 'title is required'],
+      required: [true, 'العنوان مطلوب'],
     },
     description: {
       type: String,
       trim: true,
-      required: [true, 'description is required'],
+      required: [true, 'الوصف مطلوب'],
     },
     price: {
       type: Number,
-      required: [true, 'price is required'],
+      required: [true, 'السعر مطلوب'],
     },
     images: {
       type: [String],
@@ -29,12 +29,12 @@ const serviceSchema = new mongoose.Schema(
     ],
     category: {
       type: String,
-      required: [true, 'category is required'],
+      required: [true, 'الفئة مطلوبة'],
     },
     company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'service must be belong to a user(company)'],
+      required: [true, 'يجب أن تكون الخدمة مملوكة لمستخدم (شركة)'],
     },
   },
   {

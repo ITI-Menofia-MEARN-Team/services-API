@@ -2,7 +2,7 @@ import { check } from 'express-validator';
 import validation from '../middlewares/validate.js';
 
 export const getOrderValidator = [
-  check('id').isMongoId().withMessage('Invalid Order id format'),
+  check('id').isMongoId().withMessage('رقم تعريفى غير صالح'),
   validation,
 ];
 
@@ -14,12 +14,12 @@ export const createOrderValidator = [
 ];
 
 export const updateOrderValidator = [
-  check('id').isMongoId().withMessage('Invalid Order id format'),
-  check('user').isMongoId().withMessage('User is required'),
+  check('id').isMongoId().withMessage('رقم تعريفى غير صالح'),
+  check('user').isMongoId().withMessage('اسم المستخدم مطلوب'),
   validation,
 ];
 
 export const deleteOrderValidator = [
-  check('id').isMongoId().withMessage('Invalid Order id format'),
+  check('id').isMongoId().withMessage('رقم تعريفى غير صالح'),
   validation,
 ];
