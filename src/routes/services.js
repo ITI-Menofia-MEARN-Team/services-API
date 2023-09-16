@@ -26,7 +26,7 @@ import multer from 'multer';
 import ErrorAPI from '../utils/errorAPI.js';
 const diskStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/servicepictures');
+    cb(null, 'src/uploads/service');
   },
   filename: function (req, file, cb) {
     const exe = file.mimetype.split('/')[1];
