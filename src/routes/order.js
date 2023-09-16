@@ -3,6 +3,7 @@ import {
   AddOrder,
   deleteOrder,
   getAllOrders,
+  getCompanyOrders,
   getOrder,
   updateOrder,
 } from '../controllers/order.js';
@@ -34,5 +35,9 @@ router
   .get(verifyToken, isOrderAllowed, getOrderValidator, getOrder)
   .delete(verifyToken, isOrderAllowed, deleteOrderValidator, deleteOrder)
   .put(verifyToken, isOrderAllowed, updateOrderValidator, updateOrder);
+
+router
+  .route('/company/:id')
+  .get(verifyToken, isAllowed('Company', 'Admin'), isMine, getCompanyOrders);
 
 export default router;
