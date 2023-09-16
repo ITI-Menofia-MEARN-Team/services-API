@@ -5,6 +5,7 @@ import {
   getService,
   updateService,
   deleteService,
+  getCompanyServices,
 } from '../controllers/services.js';
 import {
   addNewServiceValidator,
@@ -18,6 +19,7 @@ import {
   verifyToken,
   isTheSameCompany,
   isMyService,
+  isOrderAllowed,
 } from '../middlewares/auth.js';
 
 import multer from 'multer';
@@ -72,4 +74,5 @@ router
   .patch(verifyToken, updateServiceValidator, isMyService, updateService)
   .delete(verifyToken, deleteServiceValidator, isMyService, deleteService);
 
+router.route('/company/:id').get(getCompanyServices);
 export default router;
