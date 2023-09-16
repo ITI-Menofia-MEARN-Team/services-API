@@ -5,17 +5,17 @@ const OrderSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'order must belong to a user(user)'],
+      required: [true, 'يجب أن ينتمي الطلب إلى مستخدم (مستخدم)'],
     },
     company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'order must belong to a user(company)'],
+      required: [true, 'يجب أن ينتمي الطلب إلى مستخدم (شركة)'],
     },
     service: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Service',
-      required: [true, 'order must have one service'],
+      required: [true, 'يجب أن يحتوي الطلب على خدمة واحدة'],
     },
     extra_props: {
       type: mongoose.Schema.Types.ObjectId,

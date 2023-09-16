@@ -39,7 +39,7 @@ const fileFilter = (req, file, cb) => {
   if (imageType === 'image') {
     return cb(null, true);
   } else {
-    return cb(new ErrorAPI('the file must be an image', 400), false);
+    return cb(new ErrorAPI('يجب أن يكون الملف صورة', 400), false);
   }
 };
 

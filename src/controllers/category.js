@@ -32,17 +32,17 @@ export const getCategory = asyncHandler(async (req, res, next) => {
   if (category) {
     res.json(category);
   } else {
-    return next(new ErrorApi(`No category for this id ${req.params.id}`, 404));
+    return next(new ErrorApi(` فئة غير موجودة ${req.params.id}`, 404));
   }
 });
 
 export const deleteCategory = asyncHandler(async (req, res, next) => {
   const category = await CategoryModel.findByIdAndRemove(req.params.id);
   if (!category) {
-    return next(new ErrorApi(`No category for this id ${req.params.id}`, 404));
+    return next(new ErrorApi(`فئة غير موجودة ${req.params.id}`, 404));
   } else {
     res.json({
-      message: 'Category deleted successfully',
+      message: 'تم حذف الفئة بنجاح',
     });
   }
 });
@@ -59,7 +59,7 @@ export const updateCategory = asyncHandler(async (req, res, next) => {
     },
   );
   if (!category) {
-    return next(new ErrorApi(`No category for this id ${req.params.id}`, 404));
+    return next(new ErrorApi(`فئة غير موجودة ${req.params.id}`, 404));
   } else {
     res.json(category);
   }

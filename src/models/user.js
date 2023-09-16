@@ -4,23 +4,23 @@ const userSchema = new mongoose.Schema(
   {
     full_name: {
       type: String,
-      required: [true, 'full_name is required'],
+      required: [true, 'الاسم بالكامل مطلوب '],
       trim: true,
     },
     username: {
       type: String,
-      unique: [true, 'username is already taken'],
+      unique: [true, 'اسم المستخدم مسجل بالفعل'],
       trim: true,
     },
     email: {
       type: String,
-      required: [true, 'email is required'],
-      unique: [true, 'email is already taken'],
+      required: [true, 'البريد الالكتروني مطلوب'],
+      unique: [true, 'البريد الالكتروني مسجل بالفعل '],
       trim: true,
     },
     password: {
       type: String,
-      required: [true, 'password is required'],
+      required: [true, 'كلمة المرور مطلوبة '],
     },
     phone_number: {
       type: String,

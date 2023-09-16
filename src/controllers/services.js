@@ -36,7 +36,7 @@ const getAllServices = asyncHandler(async (req, res) => {
 const getService = asyncHandler(async (req, res) => {
   const service = await Service.findById(req.params.id).populate('company');
   if (!service) {
-    return next(new ErrorAPI(`No service found for this id ${req.params.id}`, 404));
+    return next(new ErrorAPI(`لا يوجد خدمة مسجلة بهذا الرقم ${req.params.id}`, 404));
   }
   res.status(200).json({
     status: 'success',
@@ -53,7 +53,7 @@ const updateService = asyncHandler(async (req, res, next) => {
   });
 
   if (!service) {
-    return next(new ErrorAPI(`No service found for this id ${req.params.id}`, 404));
+    return next(new ErrorAPI(`لا يوجد خدمة مسجلة بهذا الرقم  ${req.params.id}`, 404));
   }
 
   res.status(200).json({
@@ -67,7 +67,7 @@ const updateService = asyncHandler(async (req, res, next) => {
 const deleteService = asyncHandler(async (req, res) => {
   const service = await Service.findByIdAndDelete(req.params.id);
   if (!service) {
-    return next(new ErrorAPI(`No service found for this id ${req.params.id}`, 404));
+    return next(new ErrorAPI(`لا يوجد خدمة مسجله بهذا الرقم  ${req.params.id}`, 404));
   }
   res.status(204).json({
     status: 'success',
@@ -79,7 +79,7 @@ const deleteService = asyncHandler(async (req, res) => {
 const getCompanyServices = asyncHandler(async (req, res) => {
   const services = await Service.find({ company: req.params.id });
   if (!services) {
-    return next(new ErrorAPI(`No services found for this Company id ${req.params.id}`, 404));
+    return next(new ErrorAPI(`لا يوجد خدمة مسجلة لهذه الشركة  ${req.params.id}`, 404));
   }
   res.status(200).json({
     status: 'success',

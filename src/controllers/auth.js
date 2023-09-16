@@ -51,7 +51,7 @@ export const registerUser = asyncHandler(async (req, res, next) => {
 export const loginUser = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
   if (!email && !username) {
-    return next(new ErrorApi(`Email or username is required `, 400));
+    return next(new ErrorApi(` البريد الإلكتروني و اسم المستخدم مطلوب`, 400));
   }
 
   const match = email ? { email: email.toLowerCase() } : { username };
@@ -87,7 +87,7 @@ export const loginUser = asyncHandler(async (req, res, next) => {
         },
       });
   } else {
-    return next(new ErrorApi(`Username or password is invalid`, 400));
+    return next(new ErrorApi(`اسم المستخدم او كلمة المرور غير صحيح`, 400));
   }
 });
 
