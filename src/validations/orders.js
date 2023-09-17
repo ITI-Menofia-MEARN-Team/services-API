@@ -10,6 +10,11 @@ export const createOrderValidator = [
   check('user').isMongoId(),
   check('service').isMongoId(),
   check('extra_props').optional().isMongoId(),
+  check('total_price')
+    .notEmpty()
+    .withMessage('اجمالي السعر مطلوب')
+    .isNumeric()
+    .withMessage('سعر غير صالح'),
   validation,
 ];
 
