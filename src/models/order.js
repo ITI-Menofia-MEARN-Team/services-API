@@ -17,10 +17,12 @@ const OrderSchema = new mongoose.Schema(
       ref: 'Service',
       required: [true, 'يجب أن يحتوي الطلب على خدمة واحدة'],
     },
-    extra_props: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'ExtraProp',
-    },
+    extra_props: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ExtraProp',
+      },
+    ],
     total_price: {
       type: Number,
       required: [true, 'السعر النهائي مطلوب'],
