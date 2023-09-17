@@ -70,8 +70,8 @@ const updateService = asyncHandler(async (req, res, next) => {
   });
 });
 
-const deleteService = asyncHandler(async (req, res) => {
-  const service = await Service.findByIdAndDelete(req.params.id);
+const deleteService = asyncHandler(async (req, res, next) => {
+  const service = await Service.findByIdAndRemove(req.params.id);
   if (!service) {
     return next(new ErrorAPI(`لا يوجد خدمة مسجله بهذا الرقم  ${req.params.id}`, 404));
   }

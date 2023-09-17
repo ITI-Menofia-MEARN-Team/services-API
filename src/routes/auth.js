@@ -8,14 +8,7 @@ const router = Router();
 
 router.use(cookieParser());
 
-router.route('/register').post(
-  (req, res, next) => {
-    console.log(req.body);
-    next();
-  },
-  addUserValidator,
-  registerUser,
-);
+router.route('/register').post(addUserValidator, registerUser);
 router.route('/login').post(loginUserValidator, loginUser);
 router.route('/logout').post(verifyToken, logoutUser);
 
