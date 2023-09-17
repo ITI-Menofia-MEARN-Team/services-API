@@ -18,6 +18,7 @@ const getAllServices = asyncHandler(async (req, res) => {
   const skip = (page - 1) * limit;
 
   const services = await Service.find({})
+    .populate('category')
     .populate({
       path: 'company',
       select: 'full_name -_id',
@@ -34,7 +35,12 @@ const getAllServices = asyncHandler(async (req, res) => {
 });
 
 const getService = asyncHandler(async (req, res) => {
-  const service = await Service.findById(req.params.id).populate('company');
+  const service = await Service.findById(req.params.id)
+    .populate({
+      path: 'company',
+      select: '-password -_id',
+    })
+    .populate('category');
   if (!service) {
     return next(new ErrorAPI(`لا يوجد خدمة مسجلة بهذا الرقم ${req.params.id}`, 404));
   }
