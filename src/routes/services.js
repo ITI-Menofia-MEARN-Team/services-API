@@ -1,4 +1,8 @@
 import express from 'express';
+import multer from 'multer';
+import ErrorAPI from '../utils/errorAPI.js';
+const router = express.Router();
+
 import {
   addNewService,
   getAllServices,
@@ -22,11 +26,9 @@ import {
   isOrderAllowed,
 } from '../middlewares/auth.js';
 
-import multer from 'multer';
-import ErrorAPI from '../utils/errorAPI.js';
 const diskStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'src/uploads/service');
+    cb(null, 'uploads/servicepictures');
   },
   filename: function (req, file, cb) {
     const exe = file.mimetype.split('/')[1];
@@ -45,8 +47,6 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage: diskStorage, fileFilter: fileFilter });
 
-const router = express.Router();
-
 router
   .route('/')
   .post(
@@ -56,10 +56,8 @@ router
     (req, res, next) => {
       // Access the uploaded files from req.files
       const uploadedFiles = req.files;
-
       // Extract the filenames and add them to the images array in the request body
       req.body.images = uploadedFiles.map((file) => file.filename);
-
       // Continue with the rest of your middleware and handlers
       next();
     },
