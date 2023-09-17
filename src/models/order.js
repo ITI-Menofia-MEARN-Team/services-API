@@ -21,6 +21,10 @@ const OrderSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'ExtraProp',
     },
+    total_price: {
+      type: Number,
+      required: [true, 'السعر النهائي مطلوب'],
+    },
   },
   {
     timestamps: true,

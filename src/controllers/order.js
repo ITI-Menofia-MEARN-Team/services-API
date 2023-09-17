@@ -86,16 +86,13 @@ export const getCompanyOrders = asyncHandler(async (req, res) => {
   const limit = req.query.limit * 1 || 100;
   const skip = (page - 1) * limit;
   const orders = await OrderModel.find({ company: req.params.id })
-    .populate({ path: 'user', select: 'full_name -_id' })
+    .populate({ path: 'user', select: '-password -_id' })
     .populate({
       path: 'company',
-      select: 'full_name -_id',
+      select: '-password -_id',
     })
-    .populate({ path: 'service', select: 'title -_id' })
-    .populate({
-      path: 'extra_props',
-      select: 'description -_id',
-    })
+    .populate('service')
+    .populate('extra_props')
     .skip(skip)
     .limit(limit);
   res.status(200).json({
