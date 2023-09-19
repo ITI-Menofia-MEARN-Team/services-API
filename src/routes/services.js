@@ -6,6 +6,8 @@ import {
   updateService,
   deleteService,
   getCompanyServices,
+  uploadSeriveImg,
+  saveImgInDB,
 } from '../controllers/services.js';
 import {
   addNewServiceValidator,
@@ -24,26 +26,26 @@ import {
 
 import multer from 'multer';
 import ErrorAPI from '../utils/errorAPI.js';
-const diskStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'src/uploads/service');
-  },
-  filename: function (req, file, cb) {
-    const exe = file.mimetype.split('/')[1];
-    const fileName = `service-${Date.now()}.${exe}`;
-    cb(null, fileName);
-  },
-});
-const fileFilter = (req, file, cb) => {
-  const imageType = file.mimetype.split('/')[0];
-  if (imageType === 'image') {
-    return cb(null, true);
-  } else {
-    return cb(new ErrorAPI('يجب أن يكون الملف صورة', 400), false);
-  }
-};
+// const diskStorage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'src/uploads/service');
+//   },
+//   filename: function (req, file, cb) {
+//     const exe = file.mimetype.split('/')[1];
+//     const fileName = `service-${Date.now()}.${exe}`;
+//     cb(null, fileName);
+//   },
+// });
+// const fileFilter = (req, file, cb) => {
+//   const imageType = file.mimetype.split('/')[0];
+//   if (imageType === 'image') {
+//     return cb(null, true);
+//   } else {
+//     return cb(new ErrorAPI('يجب أن يكون الملف صورة', 400), false);
+//   }
+// };
 
-const upload = multer({ storage: diskStorage, fileFilter: fileFilter });
+// const upload = multer({ storage: diskStorage, fileFilter: fileFilter });
 
 const router = express.Router();
 
@@ -52,17 +54,8 @@ router
   .post(
     verifyToken,
     isAllowed('Company', 'Admin'),
-    upload.array('images', 4),
-    (req, res, next) => {
-      // Access the uploaded files from req.files
-      const uploadedFiles = req.files;
-
-      // Extract the filenames and add them to the images array in the request body
-      req.body.images = uploadedFiles.map((file) => file.filename);
-
-      // Continue with the rest of your middleware and handlers
-      next();
-    },
+    uploadSeriveImg,
+    saveImgInDB,
     addNewServiceValidator,
     isTheSameCompany,
     addNewService,
@@ -71,7 +64,14 @@ router
 router
   .route('/:id')
   .get(getServiceValidator, getService)
-  .patch(verifyToken, updateServiceValidator, isMyService, updateService)
+  .patch(
+    verifyToken,
+    uploadSeriveImg,
+    saveImgInDB,
+    updateServiceValidator,
+    isMyService,
+    updateService,
+  )
   .delete(verifyToken, deleteServiceValidator, isMyService, deleteService);
 
 router.route('/company/:id').get(getCompanyServices);

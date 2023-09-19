@@ -1,6 +1,23 @@
+import multer from 'multer';
+
 import asyncHandler from 'express-async-handler';
 import Service from '../models/service.js';
 import ErrorAPI from '../utils/errorAPI.js';
+import { uploadMixOfImages } from '../middlewares/uploadImage.js';
+
+const uploadSeriveImg = uploadMixOfImages('images', 4, 'src/uploads/service', 'service');
+// const uploadSeriveImg = upload.array('images', 4);
+
+const saveImgInDB = (req, res, next) => {
+  // Access the uploaded files from req.files
+  const uploadedFiles = req.files;
+
+  // Extract the filenames and add them to the images array in the request body
+  req.body.images = uploadedFiles.map((file) => file.filename);
+
+  // Continue with the rest of your middleware and handlers
+  next();
+};
 
 const addNewService = asyncHandler(async (req, res) => {
   const newService = await Service.create(req.body);
@@ -102,4 +119,6 @@ export {
   updateService,
   deleteService,
   getCompanyServices,
+  uploadSeriveImg,
+  saveImgInDB,
 };

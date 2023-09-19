@@ -1,7 +1,18 @@
+import bcrypt from 'bcryptjs';
+import multer from 'multer';
+
 import asyncHandler from 'express-async-handler';
 import UserModel from '../models/user.js';
 import ErrorApi from '../utils/errorAPI.js';
-import bcrypt from 'bcryptjs';
+import { uploadingSingleImage } from '../middlewares/uploadImage.js';
+
+const uploadUserImage = uploadingSingleImage('picture', 'src/uploads/user', 'user');
+
+const saveImgInDB = (req, res, next) => {
+  const userPic = req.file;
+  req.body.picture = userPic.filename;
+  next();
+};
 
 const getAllUsers = asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
@@ -75,4 +86,4 @@ const updateUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { addUser, getUser, getAllUsers, updateUser, deleteUser };
+export { addUser, getUser, getAllUsers, updateUser, deleteUser, uploadUserImage, saveImgInDB };
