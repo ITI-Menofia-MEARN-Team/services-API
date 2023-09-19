@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const footerSchema = new mongoose.Schema({
-  public_email: { type: String },
   social_links: {
     facebook: { type: String },
     twitter: { type: String },
