@@ -58,7 +58,7 @@ export const addUserValidator = [
 ];
 
 export const getUserValidator = [
-  check('id').isMongoId().withMessage('رقم السمتخدم غير صالح'),
+  check('id').isMongoId().withMessage('رقم المستخدم غير صالح'),
   validation,
 ];
 

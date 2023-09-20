@@ -9,6 +9,7 @@ import authRouter from './routes/auth.js';
 import servicesRouter from './routes/services.js';
 import categoryRouter from './routes/category.js';
 import extraPropsRouter from './routes/extraProp.js';
+import joinRouter from './routes/joinRequest.js';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
@@ -35,6 +36,7 @@ app.use('/user', userRouter);
 app.use('/category', categoryRouter);
 app.use('/extraProp', extraPropsRouter);
 app.use('/auth', authRouter);
+app.use('/join', joinRouter);
 
 // Not Found
 app.all('*', (req, res, next) => {
