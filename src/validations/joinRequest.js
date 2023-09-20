@@ -35,19 +35,6 @@ export const addRequestValidator = [
         }
       });
     }),
-  check('password')
-    .notEmpty()
-    .withMessage('كلمة المرور مطلوبة')
-    .isStrongPassword({
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1,
-      minLength: 8,
-      minSymbols: 0,
-    })
-    .withMessage(
-      'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، مع حرف صغير وحرف كبير ورقم واحد على الأقل',
-    ),
   check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
   check('picture').optional().isString().withMessage('صورة غير صالحة'),
   check('social_links').optional().isString().withMessage('رابط غير صالح'),
@@ -101,22 +88,8 @@ export const updateRequestValidator = [
         }
       });
     }),
-  check('password')
-    .optional()
-    .notEmpty()
-    .withMessage('كلمة المرور مطلوبة ')
-    .isStrongPassword({
-      minLength: 6,
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1,
-    })
-    .withMessage(
-      'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، مع حرف صغير وحرف كبير ورقم واحد على الأقل',
-    ),
   check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
   check('picture').optional().isString().withMessage('صورة غير صالحة'),
   check('social_links').optional().isString().withMessage('رابط غير صالح'),
-
   validation,
 ];

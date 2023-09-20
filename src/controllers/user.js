@@ -2,13 +2,18 @@ import asyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
 import ErrorApi from '../utils/errorAPI.js';
 import UserModel from '../models/user.js';
-import { uploadingSingleImage } from '../middlewares/uploadImage.js';
+import { uploadMixOfImages } from '../middlewares/uploadImage.js';
 
-const uploadUserImage = uploadingSingleImage('picture', 'src/uploads/user', 'user');
+const uploadUserImage = uploadMixOfImages('images', 1, 'src/uploads/user', 'user');
 
 const saveImgInDB = (req, res, next) => {
-  const userPic = req.file;
-  req.body.picture = userPic.filename;
+  // Access the uploaded files from req.files
+  const uploadedFiles = req.files;
+
+  // Extract the filenames and add them to the images array in the request body
+  req.body.images = uploadedFiles.map((file) => file.filename);
+
+  // Continue with the rest of your middleware and handlers
   next();
 };
 

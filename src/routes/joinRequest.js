@@ -21,7 +21,7 @@ router
   .get(verifyToken, isAllowed('Admin'), getAllRequests)
   .post(
     verifyToken,
-    isAllowed('Company', 'Admin'),
+    isAllowed('Admin'),
     uploadUserImage,
     saveImgInDB,
     addRequestValidator,

@@ -1,14 +1,15 @@
 import asyncHandler from 'express-async-handler';
-import bcrypt from 'bcryptjs';
 import ErrorApi from '../utils/errorAPI.js';
 import JoinModel from '../models/joinRequest.js';
-import { uploadingSingleImage } from '../middlewares/uploadImage.js';
+import { uploadMixOfImages } from '../middlewares/uploadImage.js';
 
-const uploadUserImage = uploadingSingleImage('picture', 'src/uploads/user', 'user');
+const uploadUserImage = uploadMixOfImages('images', 1, 'src/uploads/user', 'user');
 
 const saveImgInDB = (req, res, next) => {
-  const userPic = req.file;
-  req.body.picture = userPic.filename;
+  const uploadedFiles = req.files;
+
+  req.body.images = uploadedFiles.map((file) => file.filename);
+
   next();
 };
 
@@ -27,10 +28,8 @@ const getAllRequests = asyncHandler(async (req, res) => {
 });
 
 const addRequest = asyncHandler(async (req, res) => {
-  const hashedPassword = await bcrypt.hash(req.body.password, 8);
   const RequestObject = {
     ...req.body,
-    password: hashedPassword,
   };
   const newRequest = await JoinModel.create(RequestObject);
   res.status(201).json({

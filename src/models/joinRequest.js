@@ -18,10 +18,6 @@ const joinSchema = new mongoose.Schema(
       unique: [true, 'اسم المستخدم مسجل بالفعل'],
       trim: true,
     },
-    password: {
-      type: String,
-      required: [true, 'كلمة المرور مطلوية '],
-    },
     phone_number: {
       type: String,
       trim: true,
@@ -29,10 +25,6 @@ const joinSchema = new mongoose.Schema(
     picture: {
       type: String,
       default: 'uploads/user/profie.jpg',
-    },
-    role: {
-      type: String,
-      default: 'Company',
     },
     social_links: {
       facebook: { type: String },
