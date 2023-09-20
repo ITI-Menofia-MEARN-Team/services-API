@@ -34,7 +34,7 @@ router
   .route('/:id')
   .get(verifyToken, isOrderAllowed, getOrderValidator, getOrder)
   .delete(verifyToken, isOrderAllowed, deleteOrderValidator, deleteOrder)
-  .put(verifyToken, isOrderAllowed, updateOrderValidator, updateOrder);
+  .patch(verifyToken, isOrderAllowed, updateOrderValidator, updateOrder);
 
 router
   .route('/company/:id')

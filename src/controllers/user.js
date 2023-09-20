@@ -1,9 +1,7 @@
-import bcrypt from 'bcryptjs';
-import multer from 'multer';
-
 import asyncHandler from 'express-async-handler';
-import UserModel from '../models/user.js';
+import bcrypt from 'bcryptjs';
 import ErrorApi from '../utils/errorAPI.js';
+import UserModel from '../models/user.js';
 import { uploadingSingleImage } from '../middlewares/uploadImage.js';
 
 const uploadUserImage = uploadingSingleImage('picture', 'src/uploads/user', 'user');

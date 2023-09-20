@@ -1,8 +1,8 @@
 import { check } from 'express-validator';
 import validation from '../middlewares/validate.js';
-import UserModel from '../models/user.js';
+import JoinModel from '../models/joinRequest.js';
 
-export const addUserValidator = [
+export const addRequestValidator = [
   check('full_name')
     .trim()
     .notEmpty()
@@ -14,9 +14,9 @@ export const addUserValidator = [
     .notEmpty()
     .withMessage('اسم السمتخدم مطلوب')
     .isString()
-    .withMessage('لابد ان يتكون اسم المستخدم مناحرف فقط')
+    .withMessage('لابد ان يتكون اسم المستخدم متكون من احرف فقط')
     .custom((value) => {
-      return UserModel.find({ username: value }).then((username) => {
+      return JoinModel.find({ username: value }).then((username) => {
         if (username.length > 0) {
           throw 'اسم السمتخدم مسجل بالفعل';
         }
@@ -29,7 +29,7 @@ export const addUserValidator = [
     .withMessage('بريد الكترونى غير صالح')
     .normalizeEmail()
     .custom((value) => {
-      return UserModel.find({ email: value }).then((mail) => {
+      return JoinModel.find({ email: value }).then((mail) => {
         if (mail.length > 0) {
           throw 'البريد الالكترونى مسجل بالفعل';
         }
@@ -50,25 +50,22 @@ export const addUserValidator = [
     ),
   check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
   check('picture').optional().isString().withMessage('صورة غير صالحة'),
-  check('role').default('User'),
-  check('received_orders').optional().isMongoId().withMessage('طلب غير صالح'),
-  check('requested_orders').optional().isMongoId().withMessage('طلب غير صالح'),
-  check('services').optional().isMongoId().withMessage('خدمة غير صالحة'),
+  check('social_links').optional().isString().withMessage('رابط غير صالح'),
   validation,
 ];
 
-export const getUserValidator = [
-  check('id').isMongoId().withMessage('رقم المستخدم غير صالح'),
+export const getRequestValidator = [
+  check('id').isMongoId().withMessage('رقم طلب غير صالح'),
   validation,
 ];
 
-export const deleteUserValidator = [
-  check('id').isMongoId().withMessage('رقم مستخدم غير صالح'),
+export const deleteRequestValidator = [
+  check('id').isMongoId().withMessage('رقم طلب غير صالح'),
   validation,
 ];
 
-export const updateUserValidator = [
-  check('id').isMongoId().withMessage('رقم مستخدم غير صالح'),
+export const updateRequestValidator = [
+  check('id').isMongoId().withMessage('رقم طلب غير صالح'),
   check('full_name')
     .optional()
     .trim()
@@ -84,7 +81,7 @@ export const updateUserValidator = [
     .isString()
     .withMessage('لابد ان اسم المستخدم ان يتكون من احرف فقط')
     .custom((value) => {
-      return UserModel.find({ username: value }).then((username) => {
+      return JoinModel.find({ full: value }).then((username) => {
         if (username.length > 0) {
           throw 'اسم المستخدم مسجل بالفعل';
         }
@@ -98,7 +95,7 @@ export const updateUserValidator = [
     .withMessage('بريد الكترونى غير صالح')
     .normalizeEmail()
     .custom((value) => {
-      return UserModel.find({ email: value }).then((mail) => {
+      return JoinModel.find({ email: value }).then((mail) => {
         if (mail.length > 0) {
           throw 'البريد الالكترونى مسجل بالفعل';
         }
@@ -119,44 +116,7 @@ export const updateUserValidator = [
     ),
   check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
   check('picture').optional().isString().withMessage('صورة غير صالحة'),
-
-  check('received_orders').optional().isMongoId().withMessage('طلب غير صالح'),
-  check('requested_orders').optional().isMongoId().withMessage('طلب غير صالح'),
-  check('services').optional().isMongoId().withMessage('خدمة غير صالحة'),
-  validation,
-];
-
-// Auth
-export const loginUserValidator = [
-  check('username')
-    .optional()
-    .trim()
-    .notEmpty()
-    .withMessage('اسم المستخدم مطلوب')
-    .isString()
-    .withMessage('لابد ان يتكون اسم المستخدم من احرف فقط')
-    .custom((value) => {
-      return UserModel.find({ username: value }).then((username) => {
-        if (username.length === 0) {
-          throw 'اسم السمتخدم مسجل بالفعل';
-        }
-      });
-    }),
-  check('email')
-    .optional()
-    .notEmpty()
-    .withMessage('البريد الالكترونى مسجل بالفعل ')
-    .isEmail()
-    .withMessage('بريد الكترونى غير صالح')
-    .normalizeEmail()
-    .custom((value) => {
-      return UserModel.find({ email: value }).then((email) => {
-        if (email.length === 0) {
-          throw 'البريد الالكترونى غير مسجل';
-        }
-      });
-    }),
-  check('password').notEmpty().withMessage('كلمة المرور مطلوبة '),
+  check('social_links').optional().isString().withMessage('رابط غير صالح'),
 
   validation,
 ];
