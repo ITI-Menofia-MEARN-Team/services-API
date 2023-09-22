@@ -50,7 +50,7 @@ const getAllServices = asyncHandler(async (req, res) => {
   });
 });
 
-const getService = asyncHandler(async (req, res) => {
+const getService = asyncHandler(async (req, res, next) => {
   const service = await Service.findById(req.params.id)
     .populate({
       path: 'company',
