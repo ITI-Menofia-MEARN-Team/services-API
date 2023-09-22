@@ -19,14 +19,7 @@ const router = express.Router();
 router
   .route('/')
   .get(verifyToken, isAllowed('Admin'), getAllRequests)
-  .post(
-    verifyToken,
-    isAllowed('Admin'),
-    uploadUserImage,
-    saveImgInDB,
-    addRequestValidator,
-    addRequest,
-  );
+  .post(uploadUserImage, saveImgInDB, addRequestValidator, addRequest);
 
 router
   .route('/:id')
