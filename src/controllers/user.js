@@ -4,16 +4,16 @@ import ErrorApi from '../utils/errorAPI.js';
 import UserModel from '../models/user.js';
 import { uploadMixOfImages } from '../middlewares/uploadImage.js';
 
-const uploadUserImage = uploadMixOfImages('images', 1, 'src/uploads/user', 'user');
+const uploadUserImage = uploadMixOfImages('image', 1, 'src/uploads/user', 'user');
 
 const saveImgInDB = (req, res, next) => {
-  // Access the uploaded files from req.files
   const uploadedFiles = req.files;
-
-  // Extract the filenames and add them to the images array in the request body
-  req.body.images = uploadedFiles.map((file) => file.filename);
-
-  // Continue with the rest of your middleware and handlers
+  if (uploadedFiles && uploadedFiles.length > 0) {
+    req.body.image = uploadedFiles.map((file) => file.filename);
+  } else {
+    // If no images were uploaded, assign a default image filename to req.body.images
+    req.body.image = ['uploads/user/profie.jpg'];
+  }
   next();
 };
 
