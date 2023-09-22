@@ -3,11 +3,11 @@ import ErrorApi from '../utils/errorAPI.js';
 import JoinModel from '../models/joinRequest.js';
 import { uploadMixOfImages } from '../middlewares/uploadImage.js';
 
-const uploadUserImage = uploadMixOfImages('images', 1, 'src/uploads/user', 'user');
+const uploadUserImage = uploadMixOfImages('picture', 2, 'src/uploads/user', 'user');
 
 const saveImgInDB = (req, res, next) => {
   const uploadedFiles = req.files;
-
+  console.log(req.body);
   req.body.images = uploadedFiles.map((file) => file.filename);
 
   next();
