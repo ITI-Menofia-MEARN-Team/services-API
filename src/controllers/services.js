@@ -37,7 +37,7 @@ const getAllServices = asyncHandler(async (req, res) => {
     .populate('category')
     .populate({
       path: 'company',
-      select: 'full_name -_id',
+      select: 'full_name _id',
     })
     .skip(skip)
     .limit(limit);
@@ -56,6 +56,7 @@ const getService = asyncHandler(async (req, res) => {
       path: 'company',
       select: '-password -_id',
     })
+    .populate('extra_props')
     .populate('category');
   if (!service) {
     return next(new ErrorAPI(`لا يوجد خدمة مسجلة بهذا الرقم ${req.params.id}`, 404));
@@ -99,7 +100,10 @@ const deleteService = asyncHandler(async (req, res, next) => {
 
 // Bonus
 const getCompanyServices = asyncHandler(async (req, res) => {
-  const services = await Service.find({ company: req.params.id });
+  const services = await Service.find({ company: req.params.id }).populate({
+    path: 'company',
+    select: 'full_name _id images picture',
+  });
   if (!services) {
     return next(new ErrorAPI(`لا يوجد خدمة مسجلة لهذه الشركة  ${req.params.id}`, 404));
   }

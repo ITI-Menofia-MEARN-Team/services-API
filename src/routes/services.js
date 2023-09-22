@@ -28,10 +28,6 @@ import {
   isOrderAllowed,
 } from '../middlewares/auth.js';
 
-
-
-
-
 router
   .route('/')
   .post(
