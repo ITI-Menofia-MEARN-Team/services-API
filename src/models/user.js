@@ -26,9 +26,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    picture: {
-      type: String,
-      default: 'uploads/user/profie.jpg',
+    image: {
+      type: [String],
+      validate: [(array) => array.length >= 0 && array.length <= 1],
     },
     role: {
       type: String,

@@ -3,13 +3,16 @@ import ErrorApi from '../utils/errorAPI.js';
 import JoinModel from '../models/joinRequest.js';
 import { uploadMixOfImages } from '../middlewares/uploadImage.js';
 
-const uploadUserImage = uploadMixOfImages('images', 1, 'src/uploads/user', 'user');
+const uploadUserImage = uploadMixOfImages('image', 1, 'src/uploads/user', 'user');
 
 const saveImgInDB = (req, res, next) => {
   const uploadedFiles = req.files;
-
-  req.body.images = uploadedFiles.map((file) => file.filename);
-
+  if (uploadedFiles && uploadedFiles.length > 0) {
+    req.body.image = uploadedFiles.map((file) => file.filename);
+  } else {
+    // If no images were uploaded, assign a default image filename to req.body.images
+    req.body.image = ['uploads/user/profie.jpg'];
+  }
   next();
 };
 
