@@ -24,7 +24,7 @@ const serviceSchema = new mongoose.Schema(
     extra_props: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'ExtraProps',
+        ref: 'ExtraProp',
       },
     ],
     category: {
