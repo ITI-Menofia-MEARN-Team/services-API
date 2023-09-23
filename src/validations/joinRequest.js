@@ -36,7 +36,15 @@ export const addRequestValidator = [
       });
     }),
   check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
-  check('picture').optional().isString().withMessage('صورة غير صالحة'),
+  check('image')
+    .optional()
+    .isArray()
+    .custom((value) => {
+      if (!value.every((item) => typeof item === 'string')) {
+        throw new Error('لابد ان يكون اسم الصور مكون من احرف فقط');
+      }
+      return true;
+    }),
   check('social_links').optional().isString().withMessage('رابط غير صالح'),
   validation,
 ];
@@ -89,7 +97,15 @@ export const updateRequestValidator = [
       });
     }),
   check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
-  check('picture').optional().isString().withMessage('صورة غير صالحة'),
+  check('image')
+    .optional()
+    .isArray()
+    .custom((value) => {
+      if (!value.every((item) => typeof item === 'string')) {
+        throw new Error('لابد ان يكون اسم الصور مكون من احرف فقط');
+      }
+      return true;
+    }),
   check('social_links').optional().isString().withMessage('رابط غير صالح'),
   validation,
 ];
