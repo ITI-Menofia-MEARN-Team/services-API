@@ -3,11 +3,23 @@ import bcrypt from 'bcryptjs';
 import asyncHandler from 'express-async-handler';
 import UserModel from '../models/user.js';
 import ErrorApi from '../utils/errorAPI.js';
+import { uploadMixOfImages } from '../middlewares/uploadImage.js';
 
 const oneDay = 1000 * 60 * 60 * 24;
+const uploadUserImage = uploadMixOfImages('image', 1, 'src/uploads/user', 'user');
 
-export const registerUser = asyncHandler(async (req, res, next) => {
-  const { full_name, email, password, username, phoneNumber } = req.body;
+const saveImgInDB = (req, res, next) => {
+  const uploadedFiles = req.files;
+  if (uploadedFiles && uploadedFiles.length > 0) {
+    req.body.image = uploadedFiles.map((file) => file.filename);
+  } else {
+    // If no images were uploaded, assign a default image filename to req.body.images
+    req.body.image = ['uploads/user/profie.jpg'];
+  }
+  next();
+};
+const registerUser = asyncHandler(async (req, res, next) => {
+  const { full_name, email, password, username, phoneNumber, image } = req.body;
 
   const hashedPassword = await bcrypt.hash(password, 8);
 
@@ -17,10 +29,8 @@ export const registerUser = asyncHandler(async (req, res, next) => {
     password: hashedPassword,
     username,
     phoneNumber,
+    image,
   });
-
-  console.log(user);
-
   const token = jwt.sign(
     {
       id: user._id,
@@ -48,14 +58,14 @@ export const registerUser = asyncHandler(async (req, res, next) => {
           email: user.email,
           username: user.username,
           role: user.role,
-          picture: user.picture,
+          image: user.image,
         },
         token,
       },
     });
 });
 
-export const loginUser = asyncHandler(async (req, res, next) => {
+const loginUser = asyncHandler(async (req, res, next) => {
   const { username, email, password } = req.body;
   if (!email && !username) {
     return next(new ErrorApi(` البريد الإلكتروني و اسم المستخدم مطلوب`, 400));
@@ -138,6 +148,8 @@ export const loginUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const logoutUser = asyncHandler(async (req, res, next) => {
+const logoutUser = asyncHandler(async (req, res, next) => {
   res.cookie('jwt', '', { maxAge: '1' });
 });
+
+export { registerUser, loginUser, logoutUser, uploadUserImage, saveImgInDB };

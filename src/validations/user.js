@@ -49,7 +49,15 @@ export const addUserValidator = [
       'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، مع حرف صغير وحرف كبير ورقم واحد على الأقل',
     ),
   check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
-  check('picture').optional().isString().withMessage('صورة غير صالحة'),
+  check('image')
+    .optional()
+    .isArray()
+    .custom((value) => {
+      if (!value.every((item) => typeof item === 'string')) {
+        throw new Error('لابد ان يكون اسم الصور مكون من احرف فقط');
+      }
+      return true;
+    }),
   check('role').default('User'),
   check('received_orders').optional().isMongoId().withMessage('طلب غير صالح'),
   check('requested_orders').optional().isMongoId().withMessage('طلب غير صالح'),
@@ -118,8 +126,15 @@ export const updateUserValidator = [
       'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، مع حرف صغير وحرف كبير ورقم واحد على الأقل',
     ),
   check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
-  check('picture').optional().isString().withMessage('صورة غير صالحة'),
-
+  check('image')
+    .optional()
+    .isArray()
+    .custom((value) => {
+      if (!value.every((item) => typeof item === 'string')) {
+        throw new Error('لابد ان يكون اسم الصور مكون من احرف فقط');
+      }
+      return true;
+    }),
   check('received_orders').optional().isMongoId().withMessage('طلب غير صالح'),
   check('requested_orders').optional().isMongoId().withMessage('طلب غير صالح'),
   check('services').optional().isMongoId().withMessage('خدمة غير صالحة'),
