@@ -100,10 +100,12 @@ const deleteService = asyncHandler(async (req, res, next) => {
 
 // Bonus
 const getCompanyServices = asyncHandler(async (req, res) => {
-  const services = await Service.find({ company: req.params.id }).populate({
-    path: 'company',
-    select: 'full_name _id images picture',
-  });
+  const services = await Service.find({ company: req.params.id })
+    .populate({
+      path: 'company',
+      select: 'full_name _id images picture',
+    })
+    .populate('category');
   if (!services) {
     return next(new ErrorAPI(`لا يوجد خدمة مسجلة لهذه الشركة  ${req.params.id}`, 404));
   }
