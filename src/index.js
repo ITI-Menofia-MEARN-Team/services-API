@@ -13,6 +13,7 @@ import joinRouter from './routes/joinRequest.js';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+import fs from 'node:fs';
 
 // Configuration
 dotenv.config();
@@ -28,6 +29,18 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Global Middlewares
 app.use(cors());
 app.use(express.json());
+
+// Define a route to send the blob image
+app.get('/image', (req, res) => {
+  // Read the image file as a binary buffer
+  const imageBuffer = fs.readFileSync(path.join(__dirname, `uploads/${req.body.path}`));
+
+  // Set the appropriate content type for your image
+  // res.contentType('image/*');
+
+  // Send the image buffer as the response
+  res.send(imageBuffer);
+});
 
 // Routes
 app.use('/order', orderRouter);
