@@ -54,7 +54,12 @@ const getUser = asyncHandler(async (req, res, next) => {
     .populate('requested_orders')
     .populate('services');
   if (user) {
-    res.json(user);
+    res.json({
+      status: 'success',
+      data: {
+        user: { ...user._doc, password: null },
+      },
+    });
   } else {
     return next(new ErrorApi(`لا يوجد مستخدم مسجل ${req.params.id}`, 404));
   }
@@ -72,6 +77,7 @@ const deleteUser = asyncHandler(async (req, res, next) => {
 });
 
 const updateUser = asyncHandler(async (req, res, next) => {
+  console.log('🚀 ~ file: user.js:84 ~ updateUser ~ req.body:', req.body);
   const user = await UserModel.findByIdAndUpdate(
     req.params.id,
     {

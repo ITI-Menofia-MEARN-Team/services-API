@@ -27,6 +27,6 @@ router
   .route('/:id')
   .get(verifyToken, getUserValidator, isMine, getUser)
   .delete(verifyToken, deleteUserValidator, isMine, deleteUser)
-  .patch(verifyToken, updateUserValidator, isMine, updateUser);
+  .patch(verifyToken, uploadUserImage, saveImgInDB, updateUserValidator, isMine, updateUser);
 
 export default router;

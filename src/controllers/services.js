@@ -54,7 +54,7 @@ const getService = asyncHandler(async (req, res, next) => {
   const service = await Service.findById(req.params.id)
     .populate({
       path: 'company',
-      select: '-password -_id',
+      select: '-password ',
     })
     .populate('extra_props')
     .populate('category');
