@@ -10,9 +10,11 @@ import servicesRouter from './routes/services.js';
 import categoryRouter from './routes/category.js';
 import extraPropsRouter from './routes/extraProp.js';
 import joinRouter from './routes/joinRequest.js';
+import searchRouter from './routes/search.js';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+import fs from 'node:fs';
 
 // Configuration
 dotenv.config();
@@ -29,6 +31,18 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors());
 app.use(express.json());
 
+// Define a route to send the blob image
+app.post('/image', (req, res) => {
+  // Read the image file as a binary buffer
+  const imageBuffer = fs.readFileSync(path.join(__dirname, `uploads/${req.body.path}`));
+
+  // Set the appropriate content type for your image
+  // res.contentType('image/*');
+
+  // Send the image buffer as the response
+  res.send(imageBuffer);
+});
+
 // Routes
 app.use('/order', orderRouter);
 app.use('/service', servicesRouter);
@@ -37,6 +51,7 @@ app.use('/category', categoryRouter);
 app.use('/extraProp', extraPropsRouter);
 app.use('/auth', authRouter);
 app.use('/join', joinRouter);
+app.use('/search', searchRouter);
 
 // Not Found
 app.all('*', (req, res, next) => {

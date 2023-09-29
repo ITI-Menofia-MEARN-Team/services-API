@@ -12,7 +12,15 @@ const saveImgInDB = (req, res, next) => {
     req.body.image = uploadedFiles.map((file) => file.filename);
   } else {
     // If no images were uploaded, assign a default image filename to req.body.images
-    req.body.image = ['uploads/user/profie.jpg'];
+    req.body.image = ['profie.jpg'];
+  }
+  next();
+};
+
+const updateSaveImgInDB = (req, res, next) => {
+  const uploadedFiles = req.files;
+  if (uploadedFiles && uploadedFiles.length > 0) {
+    req.body.image = uploadedFiles.map((file) => file.filename);
   }
   next();
 };
@@ -54,7 +62,12 @@ const getUser = asyncHandler(async (req, res, next) => {
     .populate('requested_orders')
     .populate('services');
   if (user) {
-    res.json(user);
+    res.json({
+      status: 'success',
+      data: {
+        user: { ...user._doc, password: null },
+      },
+    });
   } else {
     return next(new ErrorApi(`لا يوجد مستخدم مسجل ${req.params.id}`, 404));
   }
@@ -72,6 +85,7 @@ const deleteUser = asyncHandler(async (req, res, next) => {
 });
 
 const updateUser = asyncHandler(async (req, res, next) => {
+  console.log('🚀 ~ file: user.js:84 ~ updateUser ~ req.body:', req.body);
   const user = await UserModel.findByIdAndUpdate(
     req.params.id,
     {
@@ -89,4 +103,13 @@ const updateUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { addUser, getUser, getAllUsers, updateUser, deleteUser, uploadUserImage, saveImgInDB };
+export {
+  addUser,
+  getUser,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+  uploadUserImage,
+  saveImgInDB,
+  updateSaveImgInDB,
+};
