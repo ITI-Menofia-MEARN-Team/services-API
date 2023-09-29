@@ -12,7 +12,15 @@ const saveImgInDB = (req, res, next) => {
     req.body.image = uploadedFiles.map((file) => file.filename);
   } else {
     // If no images were uploaded, assign a default image filename to req.body.images
-    req.body.image = ['uploads/user/profie.jpg'];
+    req.body.image = ['profie.jpg'];
+  }
+  next();
+};
+
+const updateSaveImgInDB = (req, res, next) => {
+  const uploadedFiles = req.files;
+  if (uploadedFiles && uploadedFiles.length > 0) {
+    req.body.image = uploadedFiles.map((file) => file.filename);
   }
   next();
 };
@@ -95,4 +103,13 @@ const updateUser = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { addUser, getUser, getAllUsers, updateUser, deleteUser, uploadUserImage, saveImgInDB };
+export {
+  addUser,
+  getUser,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+  uploadUserImage,
+  saveImgInDB,
+  updateSaveImgInDB,
+};
