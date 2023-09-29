@@ -10,6 +10,7 @@ import servicesRouter from './routes/services.js';
 import categoryRouter from './routes/category.js';
 import extraPropsRouter from './routes/extraProp.js';
 import joinRouter from './routes/joinRequest.js';
+import searchRouter from './routes/search.js';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
@@ -50,6 +51,7 @@ app.use('/category', categoryRouter);
 app.use('/extraProp', extraPropsRouter);
 app.use('/auth', authRouter);
 app.use('/join', joinRouter);
+app.use('/search', searchRouter);
 
 // Not Found
 app.all('*', (req, res, next) => {
