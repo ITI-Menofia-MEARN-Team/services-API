@@ -7,6 +7,7 @@ import {
   updateUser,
   uploadUserImage,
   saveImgInDB,
+  updateSaveImgInDB,
 } from '../controllers/user.js';
 import {
   addUserValidator,
@@ -27,6 +28,6 @@ router
   .route('/:id')
   .get(verifyToken, getUserValidator, isMine, getUser)
   .delete(verifyToken, deleteUserValidator, isMine, deleteUser)
-  .patch(verifyToken, uploadUserImage, saveImgInDB, updateUserValidator, isMine, updateUser);
+  .patch(verifyToken, uploadUserImage, updateSaveImgInDB, updateUserValidator, isMine, updateUser);
 
 export default router;

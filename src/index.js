@@ -32,7 +32,7 @@ app.use(cors());
 app.use(express.json());
 
 // Define a route to send the blob image
-app.get('/image', (req, res) => {
+app.post('/image', (req, res) => {
   // Read the image file as a binary buffer
   const imageBuffer = fs.readFileSync(path.join(__dirname, `uploads/${req.body.path}`));
 
