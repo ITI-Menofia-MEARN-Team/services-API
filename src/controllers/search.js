@@ -23,3 +23,8 @@ export let handleSearch = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
+// export let handleSearchInDashboard = asyncHandler(async (req, res, next) => {
+//   const searchQuery = req.query.search;
+//   const regexSearch = new RegExp(searchQuery, 'i');
+// });
