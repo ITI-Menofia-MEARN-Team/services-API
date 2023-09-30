@@ -103,7 +103,7 @@ const getCompanyServices = asyncHandler(async (req, res) => {
   const services = await Service.find({ company: req.params.id })
     .populate({
       path: 'company',
-      select: 'full_name _id images picture',
+      select: 'full_name _id image',
     })
     .populate('category');
   if (!services) {
