@@ -19,6 +19,7 @@ const saveImgInDB = (req, res, next) => {
 
 const updateSaveImgInDB = (req, res, next) => {
   const uploadedFiles = req.files;
+
   if (uploadedFiles && uploadedFiles.length > 0) {
     req.body.image = uploadedFiles.map((file) => file.filename);
   }

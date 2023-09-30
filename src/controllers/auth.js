@@ -40,7 +40,6 @@ const registerUser = asyncHandler(async (req, res, next) => {
       role: user.role,
     },
     process.env.TOKEN_KEY,
-    { expiresIn: '3h' },
   );
 
   res
@@ -118,9 +117,6 @@ const loginUser = asyncHandler(async (req, res, next) => {
         role: user.role,
       },
       process.env.TOKEN_KEY,
-      {
-        expiresIn: '3h',
-      },
     );
 
     res

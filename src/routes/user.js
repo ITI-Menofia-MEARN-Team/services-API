@@ -7,6 +7,7 @@ import {
   updateUser,
   uploadUserImage,
   saveImgInDB,
+  updateSaveImgInDB,
 } from '../controllers/user.js';
 import {
   addUserValidator,
@@ -31,7 +32,7 @@ router
   .patch(
     verifyToken,
     uploadUserImage,
-    saveImgInDB,
+    updateSaveImgInDB,
     removeUsernameAndEmail,
     updateUserValidator,
     isMine,
