@@ -32,5 +32,16 @@ const OrderSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+OrderSchema.index(
+  {
+    user: 1,
+    service: 1,
+  },
+  {
+    unique: true,
+  },
+);
+
 const OrderModel = mongoose.model('Order', OrderSchema);
 export default OrderModel;

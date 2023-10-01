@@ -1,5 +1,6 @@
 import { check } from 'express-validator';
 import validation from '../middlewares/validate.js';
+import OrderModel from '../models/order.js';
 
 export const getOrderValidator = [
   check('id').isMongoId().withMessage('رقم تعريفى غير صالح'),
