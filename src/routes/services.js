@@ -29,6 +29,7 @@ import {
 } from '../middlewares/auth.js';
 import Service from '../models/service.js';
 import { deleteImage } from '../middlewares/uploadImage.js';
+import { deleteExtraProps } from '../middlewares/handlePatchRequest.js';
 
 router
   .route('/')
@@ -51,6 +52,7 @@ router
     saveImgInDB,
     updateServiceValidator,
     isMyService,
+    deleteExtraProps,
     deleteImage(Service, 'images', 'service'),
     updateService,
   )
