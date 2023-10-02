@@ -1,8 +1,11 @@
 import express from 'express';
-import { handleSearch } from '../controllers/search.js';
+import { handleSearch, handlingSearchForCompany } from '../controllers/search.js';
+import { verifyToken } from '../middlewares/auth.js';
 
 const router = express.Router();
 router.route('/').get(handleSearch);
-// router.route('/dashboard').get(handleSearchInDashboard);
+
+router.route('/company').get(verifyToken, handlingSearchForCompany);
+
 
 export default router;

@@ -28,8 +28,7 @@ export const getAllOrders = asyncHandler(async (req, res) => {
   });
 });
 
-export const AddOrder = asyncHandler(async (req, res) => {
-  //create order
+export const AddOrder = asyncHandler(async (req, res, next) => {
   const newOrder = await OrderModel.create(req.body);
   res.status(201).json({
     status: 'success',
