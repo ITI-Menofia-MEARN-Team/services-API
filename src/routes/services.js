@@ -27,6 +27,8 @@ import {
   isMyService,
   isOrderAllowed,
 } from '../middlewares/auth.js';
+import Service from '../models/service.js';
+import { deleteImage } from '../middlewares/uploadImage.js';
 
 router
   .route('/')
@@ -49,9 +51,16 @@ router
     saveImgInDB,
     updateServiceValidator,
     isMyService,
+    deleteImage(Service, 'images', 'service'),
     updateService,
   )
-  .delete(verifyToken, deleteServiceValidator, isMyService, deleteService);
+  .delete(
+    verifyToken,
+    deleteServiceValidator,
+    isMyService,
+    deleteImage(Service, 'images', 'service'),
+    deleteService,
+  );
 
 router.route('/company/:id').get(getCompanyServices);
 export default router;

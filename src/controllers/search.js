@@ -25,6 +25,7 @@ export let handleSearch = asyncHandler(async (req, res, next) => {
   });
 });
 
+
 export const handlingSearchForCompany = asyncHandler(async (req, res, next) => {
   const searchQuery = req.query.search;
   const regexSearch = new RegExp(searchQuery, 'i');
@@ -57,3 +58,4 @@ export const handlingSearchForCompany = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
