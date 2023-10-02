@@ -1,5 +1,12 @@
 import multer from 'multer';
+import asyncHandler from 'express-async-handler';
 import ErrorAPI from '../utils/errorAPI.js';
+import path, { dirname } from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export const uploadMixOfImages = (fieldName, numberOfImgs, path, prefix) => {
   const diskStorage = multer.diskStorage({
@@ -24,4 +31,25 @@ export const uploadMixOfImages = (fieldName, numberOfImgs, path, prefix) => {
 
   const upload = multer({ storage: diskStorage, fileFilter: fileFilter });
   return upload.array(fieldName, numberOfImgs);
+};
+
+export const deleteImage = (model, fieldName, imgFolder) => {
+  return asyncHandler(async (req, res, next) => {
+    const id = req.params.id;
+    const deletedItem = await model.findById(id);
+    const imgPathes = deletedItem[fieldName];
+
+    imgPathes.forEach((imagePath, i) => {
+      const absoluteImagePath = path.join(__dirname, '..', 'uploads', imgFolder, imagePath);
+      if (imagePath === 'profie.jpg') {
+        return;
+      }
+      if (fs.existsSync(absoluteImagePath)) {
+        fs.unlinkSync(absoluteImagePath);
+
+        console.log(`Deleted image: ${imagePath}`);
+      }
+    });
+    next();
+  });
 };
