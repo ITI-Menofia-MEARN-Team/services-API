@@ -35,6 +35,7 @@ export const uploadMixOfImages = (fieldName, numberOfImgs, path, prefix) => {
 
 export const deleteImage = (model, fieldName, imgFolder) => {
   return asyncHandler(async (req, res, next) => {
+    if (!req.body[fieldName] || req.body[fieldName].length === 0) return next();
     const id = req.params.id;
     const deletedItem = await model.findById(id);
     const imgPathes = deletedItem[fieldName];
