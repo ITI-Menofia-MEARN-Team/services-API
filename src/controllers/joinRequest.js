@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import ErrorApi from '../utils/errorAPI.js';
 import JoinModel from '../models/joinRequest.js';
 import { uploadMixOfImages } from '../middlewares/uploadImage.js';
+import UserModel from '../models/user.js';
 
 const uploadUserImage = uploadMixOfImages('image', 1, 'src/uploads/user', 'user');
 
@@ -30,17 +31,23 @@ const getAllRequests = asyncHandler(async (req, res) => {
   });
 });
 
-const addRequest = asyncHandler(async (req, res) => {
+const addRequest = asyncHandler(async (req, res, next) => {
   const RequestObject = {
     ...req.body,
   };
-  const newRequest = await JoinModel.create(RequestObject);
-  res.status(201).json({
-    status: 'success',
-    data: {
-      joinRequest: newRequest,
-    },
-  });
+  const { email, username } = RequestObject;
+  const existingUser = await UserModel.findOne({ $or: [{ email }, { username }] });
+  if (existingUser) {
+    return next(new Error('هذا المستخدم مسجل بالفعل', 404));
+  } else {
+    const newRequest = await JoinModel.create(RequestObject);
+    res.status(201).json({
+      status: 'success',
+      data: {
+        joinRequest: newRequest,
+      },
+    });
+  }
 });
 
 const getRequest = asyncHandler(async (req, res, next) => {
