@@ -57,6 +57,13 @@ const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Footer',
     },
+    social_links: {
+      facebook: { type: String },
+      twitter: { type: String },
+      instagram: { type: String },
+      youtube: { type: String },
+    },
+
     join_requests: [],
   },
   {
