@@ -104,6 +104,23 @@ const updateUser = asyncHandler(async (req, res, next) => {
   }
 });
 
+const getCompany = asyncHandler(async (req, res, next) => {
+  const company = await UserModel.find({ _id: req.params.id, role: 'Company' }).populate(
+    'services',
+  );
+
+  if (company) {
+    res.json({
+      status: 'success',
+      data: {
+        company: { ...company[0]._doc, password: null },
+      },
+    });
+  } else {
+    return next(new ErrorApi(`لا يوجد شركة مسجل ${req.params.id}`, 404));
+  }
+});
+
 export {
   addUser,
   getUser,
@@ -113,4 +130,5 @@ export {
   uploadUserImage,
   saveImgInDB,
   updateSaveImgInDB,
+  getCompany,
 };

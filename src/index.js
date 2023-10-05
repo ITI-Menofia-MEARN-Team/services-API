@@ -5,6 +5,7 @@ import ErrorAPI from './utils/errorAPI.js';
 import globalError from './middlewares/error.js';
 import orderRouter from './routes/order.js';
 import userRouter from './routes/user.js';
+import companyRouter from './routes/company.js';
 import authRouter from './routes/auth.js';
 import servicesRouter from './routes/services.js';
 import categoryRouter from './routes/category.js';
@@ -36,9 +37,6 @@ app.post('/image', (req, res) => {
   // Read the image file as a binary buffer
   const imageBuffer = fs.readFileSync(path.join(__dirname, `uploads/${req.body.path}`));
 
-  // Set the appropriate content type for your image
-  // res.contentType('image/*');
-
   // Send the image buffer as the response
   res.send(imageBuffer);
 });
@@ -52,6 +50,7 @@ app.use('/extraProp', extraPropsRouter);
 app.use('/auth', authRouter);
 app.use('/join', joinRouter);
 app.use('/search', searchRouter);
+app.use('/company', companyRouter);
 
 // Not Found
 app.all('*', (req, res, next) => {
