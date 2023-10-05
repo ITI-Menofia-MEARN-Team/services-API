@@ -44,6 +44,7 @@ router
     removeUsernameAndEmail,
     updateUserValidator,
     isMine,
+    deleteImage(UserModel, 'image', 'user'),
     updateUser,
   );
 
