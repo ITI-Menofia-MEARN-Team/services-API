@@ -3,6 +3,7 @@ import ErrorApi from '../utils/errorAPI.js';
 import JoinModel from '../models/joinRequest.js';
 import { uploadMixOfImages } from '../middlewares/uploadImage.js';
 import UserModel from '../models/user.js';
+import bcrypt from 'bcryptjs';
 
 const uploadUserImage = uploadMixOfImages('image', 1, 'src/uploads/user', 'user');
 
@@ -88,6 +89,14 @@ const updateRequest = asyncHandler(async (req, res, next) => {
   }
 });
 
+const addUserToDb = asyncHandler(async (req, res) => {
+  const userData = await JoinModel.findByIdAndRemove(req.params['id']);
+  const hashedPass = await bcrypt.hash('12345678Uu', 8);
+
+  let newUser = await UserModel.create({ ...userData._doc, password: hashedPass });
+  res.send(newUser);
+});
+
 export {
   addRequest,
   getRequest,
@@ -96,4 +105,5 @@ export {
   deleteRequest,
   uploadUserImage,
   saveImgInDB,
+  addUserToDb,
 };

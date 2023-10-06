@@ -7,6 +7,7 @@ import {
   updateRequest,
   uploadUserImage,
   saveImgInDB,
+  addUserToDb,
 } from '../controllers/joinRequest.js';
 import { isAllowed, verifyToken } from '../middlewares/auth.js';
 import {
@@ -25,6 +26,7 @@ router
   .route('/:id')
   .get(verifyToken, isAllowed('Admin'), getRequestValidator, getRequest)
   .delete(verifyToken, isAllowed('Admin'), deleteRequestValidator, deleteRequest)
-  .patch(verifyToken, isAllowed('Admin'), updateRequestValidator, updateRequest);
+  .patch(verifyToken, isAllowed('Admin'), updateRequestValidator, updateRequest)
+  .post(verifyToken, isAllowed('Admin'), addUserToDb);
 
 export default router;
