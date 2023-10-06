@@ -8,7 +8,10 @@ import OrderModel from '../models/order.js';
 export let handleSearch = asyncHandler(async (req, res, next) => {
   const searchQuery = req.query.search;
   const regexSearch = new RegExp(searchQuery, 'i');
-  const companies = await UserModel.find({ full_name: regexSearch, role: 'Company' }).select({
+  const companies = await UserModel.find({
+    full_name: regexSearch,
+    role: { $in: ['Admin', 'Company'] },
+  }).select({
     full_name: 1,
   });
   const services = await Service.find({ title: regexSearch }).select({ title: 1 });
@@ -24,7 +27,6 @@ export let handleSearch = asyncHandler(async (req, res, next) => {
     },
   });
 });
-
 
 export const handlingSearchForCompany = asyncHandler(async (req, res, next) => {
   const searchQuery = req.query.search;
@@ -58,4 +60,3 @@ export const handlingSearchForCompany = asyncHandler(async (req, res, next) => {
     },
   });
 });
-
