@@ -7,6 +7,7 @@ import { uploadMixOfImages } from '../middlewares/uploadImage.js';
 const uploadUserImage = uploadMixOfImages('image', 1, 'src/uploads/user', 'user');
 
 const saveImgInDB = (req, res, next) => {
+  console.log('req: ', req.body);
   const uploadedFiles = req.files;
   if (uploadedFiles && uploadedFiles.length > 0) {
     req.body.image = uploadedFiles.map((file) => file.filename);
@@ -86,7 +87,12 @@ const deleteUser = asyncHandler(async (req, res, next) => {
 });
 
 const updateUser = asyncHandler(async (req, res, next) => {
-  console.log('🚀 ~ file: user.js:84 ~ updateUser ~ req.body:', req.body);
+  // const hashedPassword = await bcrypt.hash(req.body.password, 8);
+  // const userObject = {
+  //   ...req.body,
+  //   password: hashedPassword,
+  // };
+
   const user = await UserModel.findByIdAndUpdate(
     req.params.id,
     {
@@ -105,9 +111,10 @@ const updateUser = asyncHandler(async (req, res, next) => {
 });
 
 const getCompany = asyncHandler(async (req, res, next) => {
-  const company = await UserModel.find({ _id: req.params.id, role: 'Company' }).populate(
-    'services',
-  );
+  const company = await UserModel.find({
+    _id: req.params.id,
+    role: { $in: ['Admin', 'Company'] },
+  }).populate('services');
 
   if (company) {
     res.json({

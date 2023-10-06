@@ -12,7 +12,7 @@ const saveImgInDB = (req, res, next) => {
     req.body.image = uploadedFiles.map((file) => file.filename);
   } else {
     // If no images were uploaded, assign a default image filename to req.body.images
-    req.body.image = ['uploads/user/profie.jpg'];
+    req.body.image = ['profie.jpg'];
   }
   next();
 };

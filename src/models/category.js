@@ -4,6 +4,8 @@ const CategorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      trim: true,
+      unique: [true, 'اسم الفئه موجود بالفعل '],
       required: [true, 'اسم الفئة مطلوب'],
     },
   },
