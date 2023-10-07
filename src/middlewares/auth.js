@@ -53,8 +53,9 @@ export const isOrderAllowed = asyncHandler(async (req, res, next) => {
   if (req.currentUser.role === 'Admin') return next();
   const order = await OrderModel.findById(req.params.id);
   const userId = order.user;
+  const companyId = order.company;
 
-  if (req.currentUser.id === userId.toString()) {
+  if (req.currentUser.id === userId.toString() || req.currentUser.id === companyId.toString()) {
     return next();
   } else return next(new ErrorApi('ليس لك صلاحية للدخول لهذه الصفحة '));
 });

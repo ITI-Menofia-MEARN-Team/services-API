@@ -40,8 +40,14 @@ export const AddOrder = asyncHandler(async (req, res, next) => {
 
 export const getOrder = asyncHandler(async (req, res, next) => {
   const order = await OrderModel.findById(req.params.id)
-    .populate('user')
-    .populate('company')
+    .populate({
+      path: 'user',
+      select: '-password',
+    })
+    .populate({
+      path: 'company',
+      select: '-password',
+    })
     .populate('service')
     .populate('extra_props');
   if (order) {

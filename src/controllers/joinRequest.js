@@ -39,7 +39,7 @@ const addRequest = asyncHandler(async (req, res, next) => {
   const { email, username } = RequestObject;
   const existingUser = await UserModel.findOne({ $or: [{ email }, { username }] });
   if (existingUser) {
-    return next(new Error('هذا المستخدم مسجل بالفعل', 404));
+    return next(new Error('اسم المستخدم او البريد الإلكتروني مسجل بالفعل', 404));
   } else {
     const newRequest = await JoinModel.create(RequestObject);
     res.status(201).json({
@@ -66,7 +66,7 @@ const deleteRequest = asyncHandler(async (req, res, next) => {
     return next(new ErrorApi(`لا يوجد طلب انضمام مسجل  ${req.params.id}`, 404));
   } else {
     res.json({
-      message: 'تم حذف الطلب بنجاح',
+      message: 'تم رفض الطلب بنجاح',
     });
   }
 });
@@ -93,8 +93,10 @@ const addUserToDb = asyncHandler(async (req, res) => {
   const userData = await JoinModel.findByIdAndRemove(req.params['id']);
   const hashedPass = await bcrypt.hash('12345678Uu', 8);
 
-  let newUser = await UserModel.create({ ...userData._doc, password: hashedPass });
-  res.send(newUser);
+  let newUser = await UserModel.create({ ...userData._doc, password: hashedPass, role: 'Company' });
+  res.json({
+    message: 'success',
+  });
 });
 
 export {
