@@ -34,8 +34,38 @@ app.use(express.json());
 
 // Define a route to send the blob image
 app.post('/image', (req, res) => {
+  // Get the image path from the query parameter
+  const imagePath = req.body.path;
+  console.log('imagePath: ', imagePath);
+
+  if (!imagePath) {
+    return res.status(400).json({ error: 'Image path is missing' });
+  }
+
   // Read the image file as a binary buffer
-  const imageBuffer = fs.readFileSync(path.join(__dirname, `uploads/${req.body.path}`));
+  const imageBuffer = fs.readFileSync(path.join(__dirname, `uploads/${imagePath}`));
+
+  // Determine the MIME type based on the file extension
+  const extension = path.extname(imagePath).toLowerCase();
+  const mimeTypes = {
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.png': 'image/png',
+    '.gif': 'image/gif',
+    '.bmp': 'image/bmp',
+    '.webp': 'image/webp',
+    '.tiff': 'image/tiff',
+    '.tif': 'image/tiff',
+    '.svg': 'image/svg+xml',
+    '.ico': 'image/x-icon',
+    // '.pdf': 'application/pdf',
+    '.jp2': 'image/jp2',
+    // '.webm': 'video/webm',
+    // Add more image types as needed
+  };
+
+  // Set the appropriate content type in the response header
+  res.setHeader('Content-Type', mimeTypes[extension] || 'application/octet-stream');
 
   // Send the image buffer as the response
   res.send(imageBuffer);
