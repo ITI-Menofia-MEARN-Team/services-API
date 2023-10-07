@@ -36,7 +36,6 @@ app.use(express.json());
 app.post('/image', (req, res) => {
   // Get the image path from the query parameter
   const imagePath = req.body.path;
-  console.log('imagePath: ', imagePath);
 
   if (!imagePath) {
     return res.status(400).json({ error: 'Image path is missing' });
