@@ -1,13 +1,10 @@
-import { check } from 'express-validator';
-import validation from '../middlewares/validate.js';
-import OrderModel from '../models/order.js';
+const { check } = require('express-validator');
+const validation = require('../middlewares/validate.js');
+const OrderModel = require('../models/order.js');
 
-export const getOrderValidator = [
-  check('id').isMongoId().withMessage('رقم تعريفى غير صالح'),
-  validation,
-];
+const getOrderValidator = [check('id').isMongoId().withMessage('رقم تعريفى غير صالح'), validation];
 
-export const createOrderValidator = [
+const createOrderValidator = [
   check('user').isMongoId(),
   check('service').isMongoId(),
   check('extra_props').optional().isMongoId(),
@@ -19,13 +16,20 @@ export const createOrderValidator = [
   validation,
 ];
 
-export const updateOrderValidator = [
+const updateOrderValidator = [
   check('id').isMongoId().withMessage('رقم تعريفى غير صالح'),
   check('user').isMongoId().withMessage('اسم المستخدم مطلوب'),
   validation,
 ];
 
-export const deleteOrderValidator = [
+const deleteOrderValidator = [
   check('id').isMongoId().withMessage('رقم تعريفى غير صالح'),
   validation,
 ];
+
+module.exports = {
+  updateOrderValidator,
+  deleteOrderValidator,
+  createOrderValidator,
+  getOrderValidator,
+};

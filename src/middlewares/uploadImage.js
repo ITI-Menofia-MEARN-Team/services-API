@@ -1,14 +1,14 @@
-import multer from 'multer';
-import asyncHandler from 'express-async-handler';
-import ErrorAPI from '../utils/errorAPI.js';
-import path, { dirname } from 'path';
-import fs from 'fs';
-import { fileURLToPath } from 'url';
+const multer = require('multer');
+const asyncHandler = require('express-async-handler');
+const ErrorAPI = require('../utils/errorAPI.js');
+const path = require('path');
+const fs = require('fs');
+const { fileURLToPath } = require('url');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
-export const uploadMixOfImages = (fieldName, numberOfImgs, path, prefix) => {
+const uploadMixOfImages = (fieldName, numberOfImgs, path, prefix) => {
   const diskStorage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, path);
@@ -33,7 +33,7 @@ export const uploadMixOfImages = (fieldName, numberOfImgs, path, prefix) => {
   return upload.array(fieldName, numberOfImgs);
 };
 
-export const deleteImage = (model, fieldName, imgFolder) => {
+const deleteImage = (model, fieldName, imgFolder) => {
   return asyncHandler(async (req, res, next) => {
     if (!req.body[fieldName] || req.body[fieldName].length === 0) return next();
     const id = req.params.id;
@@ -53,4 +53,9 @@ export const deleteImage = (model, fieldName, imgFolder) => {
     });
     next();
   });
+};
+
+module.exports = {
+  uploadMixOfImages,
+  deleteImage,
 };

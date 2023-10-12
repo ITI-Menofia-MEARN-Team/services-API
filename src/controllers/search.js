@@ -1,11 +1,11 @@
-import asyncHandler from 'express-async-handler';
-import Service from '../models/service.js';
-import UserModel from '../models/user.js';
-import ErrorAPI from '../utils/errorAPI.js';
-import jwt from 'jsonwebtoken';
-import OrderModel from '../models/order.js';
+const asyncHandler = require('express-async-handler');
+const Service = require('../models/service.js');
+const UserModel = require('../models/user.js');
+const ErrorAPI = require('../utils/errorAPI.js');
+const jwt = require('jsonwebtoken');
+const OrderModel = require('../models/order.js');
 
-export let handleSearch = asyncHandler(async (req, res, next) => {
+let handleSearch = asyncHandler(async (req, res, next) => {
   const searchQuery = req.query.search;
   const regexSearch = new RegExp(searchQuery, 'i');
   const companies = await UserModel.find({
@@ -28,7 +28,7 @@ export let handleSearch = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const handlingSearchForCompany = asyncHandler(async (req, res, next) => {
+const handlingSearchForCompany = asyncHandler(async (req, res, next) => {
   const searchQuery = req.query.search;
   const regexSearch = new RegExp(searchQuery, 'i');
   const token = req.headers['token'];
@@ -60,3 +60,5 @@ export const handlingSearchForCompany = asyncHandler(async (req, res, next) => {
     },
   });
 });
+
+module.exports = { handleSearch, handlingSearchForCompany };

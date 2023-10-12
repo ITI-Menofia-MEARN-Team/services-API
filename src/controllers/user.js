@@ -1,10 +1,10 @@
-import asyncHandler from 'express-async-handler';
-import bcrypt from 'bcryptjs';
-import ErrorApi from '../utils/errorAPI.js';
-import UserModel from '../models/user.js';
-import { uploadMixOfImages } from '../middlewares/uploadImage.js';
+const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcryptjs');
+const ErrorApi = require('../utils/errorAPI.js');
+const UserModel = require('../models/user.js');
+const { uploadMixOfImages } = require('../middlewares/uploadImage.js');
 
-const uploadUserImage = uploadMixOfImages('image', 1, 'src/uploads/user', 'user');
+const uploadUserImage = uploadMixOfImages('image', 1, 'uploads/user', 'user');
 
 const saveImgInDB = (req, res, next) => {
   console.log('req: ', req.body);
@@ -128,7 +128,7 @@ const getCompany = asyncHandler(async (req, res, next) => {
   }
 });
 
-export {
+module.exports = {
   addUser,
   getUser,
   getAllUsers,

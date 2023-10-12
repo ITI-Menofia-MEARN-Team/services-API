@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const joinSchema = new mongoose.Schema(
   {
@@ -40,4 +40,4 @@ const joinSchema = new mongoose.Schema(
 
 const JoinModel = mongoose.model('JoinRequest', joinSchema);
 
-export default JoinModel;
+module.exports = JoinModel;

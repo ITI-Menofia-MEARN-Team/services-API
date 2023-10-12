@@ -1,21 +1,21 @@
-import { Router } from 'express';
-import {
+const { Router } = require('express');
+const {
   AddExtraProp,
   AddManyExtraProp,
   deleteExtraProp,
   getAllExtraProps,
   getExtraProp,
   updateExtraProp,
-} from '../controllers/extraProp.js';
+} = require('../controllers/extraProp.js');
 
-import {
+const {
   isAllowed,
   isMine,
   verifyToken,
   isTheSameCompany,
   isMyService,
   isOrderAllowed,
-} from '../middlewares/auth.js';
+} = require('../middlewares/auth.js');
 
 const router = Router();
 router
@@ -30,5 +30,4 @@ router
   .get(getExtraProp)
   .delete(verifyToken, isAllowed('Company', 'Admin'), deleteExtraProp)
   .put(verifyToken, isAllowed('Company', 'Admin'), updateExtraProp);
-
-export default router;
+module.exports = router;

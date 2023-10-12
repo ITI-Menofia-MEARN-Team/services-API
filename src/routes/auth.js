@@ -1,14 +1,14 @@
-import { Router } from 'express';
-import {
+const { Router } = require('express');
+const {
   registerUser,
   loginUser,
   logoutUser,
   uploadUserImage,
   saveImgInDB,
-} from '../controllers/auth.js';
-import { addUserValidator, loginUserValidator } from '../validations/user.js';
-import { verifyToken } from '../middlewares/auth.js';
-import cookieParser from 'cookie-parser';
+} = require('../controllers/auth.js');
+const { addUserValidator, loginUserValidator } = require('../validations/user.js');
+const { verifyToken } = require('../middlewares/auth.js');
+const cookieParser = require('cookie-parser');
 
 const router = Router();
 
@@ -18,4 +18,4 @@ router.route('/register').post(uploadUserImage, saveImgInDB, addUserValidator, r
 router.route('/login').post(loginUserValidator, loginUser);
 router.route('/logout').post(verifyToken, logoutUser);
 
-export default router;
+module.exports = router;

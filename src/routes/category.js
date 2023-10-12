@@ -1,20 +1,20 @@
-import { Router } from 'express';
-import {
+const { Router } = require('express');
+const {
   AddCategory,
   deleteCategory,
   getAllCategories,
   getCategory,
   updateCategory,
-} from '../controllers/category.js';
+} = require('../controllers/category.js');
 
-import {
+const {
   isAllowed,
   isMine,
   verifyToken,
   isTheSameCompany,
   isMyService,
   isOrderAllowed,
-} from '../middlewares/auth.js';
+} = require('../middlewares/auth.js');
 
 const router = Router();
 router
@@ -28,4 +28,4 @@ router
   .delete(verifyToken, isAllowed('Company', 'Admin'), deleteCategory)
   .put(verifyToken, isAllowed('Company', 'Admin'), updateCategory);
 
-export default router;
+module.exports = router;

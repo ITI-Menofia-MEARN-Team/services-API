@@ -1,21 +1,21 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import { connection } from './config/database.js';
-import ErrorAPI from './utils/errorAPI.js';
-import globalError from './middlewares/error.js';
-import orderRouter from './routes/order.js';
-import userRouter from './routes/user.js';
-import companyRouter from './routes/company.js';
-import authRouter from './routes/auth.js';
-import servicesRouter from './routes/services.js';
-import categoryRouter from './routes/category.js';
-import extraPropsRouter from './routes/extraProp.js';
-import joinRouter from './routes/joinRequest.js';
-import searchRouter from './routes/search.js';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import cors from 'cors';
-import fs from 'node:fs';
+const express = require('express');
+const dotenv = require('dotenv');
+const { connection } = require('./src/config/database.js');
+const ErrorAPI = require('./src/utils/errorAPI.js');
+const globalError = require('./src/middlewares/error.js');
+const orderRouter = require('./src/routes/order.js');
+const userRouter = require('./src/routes/user.js');
+const companyRouter = require('./src/routes/company.js');
+const authRouter = require('./src/routes/auth.js');
+const servicesRouter = require('./src/routes/services.js');
+const categoryRouter = require('./src/routes/category.js');
+const extraPropsRouter = require('./src/routes/extraProp.js');
+const joinRouter = require('./src/routes/joinRequest.js');
+const searchRouter = require('./src/routes/search.js');
+const path = require('path');
+const { fileURLToPath } = require('url');
+const cors = require('cors');
+const fs = require('fs');
 
 // Configuration
 dotenv.config();
@@ -24,8 +24,8 @@ connection();
 // Express
 const app = express();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Global Middlewares

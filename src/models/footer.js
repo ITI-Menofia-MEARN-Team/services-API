@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const footerSchema = new mongoose.Schema({
   social_links: {
@@ -14,4 +14,4 @@ const footerSchema = new mongoose.Schema({
 });
 const FooterModel = mongoose.model('Footer', footerSchema);
 
-export default FooterModel;
+module.exports = FooterModel;

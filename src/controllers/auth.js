@@ -1,12 +1,12 @@
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import asyncHandler from 'express-async-handler';
-import UserModel from '../models/user.js';
-import ErrorApi from '../utils/errorAPI.js';
-import { uploadMixOfImages } from '../middlewares/uploadImage.js';
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const asyncHandler = require('express-async-handler');
+const UserModel = require('../models/user.js');
+const ErrorApi = require('../utils/errorAPI.js');
+const { uploadMixOfImages } = require('../middlewares/uploadImage.js');
 
 const oneDay = 1000 * 60 * 60 * 24;
-const uploadUserImage = uploadMixOfImages('image', 1, 'src/uploads/user', 'user');
+const uploadUserImage = uploadMixOfImages('image', 1, 'uploads/user', 'user');
 
 const saveImgInDB = (req, res, next) => {
   const uploadedFiles = req.files;
@@ -148,4 +148,4 @@ const logoutUser = asyncHandler(async (req, res, next) => {
   res.cookie('jwt', '', { maxAge: '1' });
 });
 
-export { registerUser, loginUser, logoutUser, uploadUserImage, saveImgInDB };
+module.exports = { registerUser, loginUser, logoutUser, uploadUserImage, saveImgInDB };

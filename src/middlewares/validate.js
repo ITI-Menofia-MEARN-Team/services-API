@@ -1,4 +1,4 @@
-import { validationResult } from 'express-validator';
+const { validationResult } = require('express-validator');
 
 // @desc Middleware for validate the routes
 const validation = (req, res, next) => {
@@ -7,4 +7,4 @@ const validation = (req, res, next) => {
   next();
 };
 
-export default validation;
+module.exports = validation;

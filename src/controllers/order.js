@@ -1,8 +1,8 @@
-import asyncHandler from 'express-async-handler';
-import OrderModel from '../models/order.js';
-import ErrorApi from '../utils/errorAPI.js';
+const asyncHandler = require('express-async-handler');
+const OrderModel = require('../models/order.js');
+const ErrorApi = require('../utils/errorAPI.js');
 
-export const getAllOrders = asyncHandler(async (req, res) => {
+const getAllOrders = asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
   const limit = req.query.limit * 1 || 100;
   const skip = (page - 1) * limit;
@@ -28,7 +28,7 @@ export const getAllOrders = asyncHandler(async (req, res) => {
   });
 });
 
-export const AddOrder = asyncHandler(async (req, res, next) => {
+const AddOrder = asyncHandler(async (req, res, next) => {
   const newOrder = await OrderModel.create(req.body);
   res.status(201).json({
     status: 'success',
@@ -38,7 +38,7 @@ export const AddOrder = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const getOrder = asyncHandler(async (req, res, next) => {
+const getOrder = asyncHandler(async (req, res, next) => {
   const order = await OrderModel.findById(req.params.id)
     .populate({
       path: 'user',
@@ -57,7 +57,7 @@ export const getOrder = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const deleteOrder = asyncHandler(async (req, res, next) => {
+const deleteOrder = asyncHandler(async (req, res, next) => {
   const order = await OrderModel.findByIdAndRemove(req.params.id);
   if (!order) {
     return next(new ErrorApi(`لا يوجد طلب بهذا الرقم ${req.params.id}`, 404));
@@ -68,7 +68,7 @@ export const deleteOrder = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const updateOrder = asyncHandler(async (req, res, next) => {
+const updateOrder = asyncHandler(async (req, res, next) => {
   const order = await OrderModel.findByIdAndUpdate(
     req.params.id,
     {
@@ -86,7 +86,7 @@ export const updateOrder = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const getCompanyOrders = asyncHandler(async (req, res) => {
+const getCompanyOrders = asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
   const limit = req.query.limit * 1 || 100;
   const skip = (page - 1) * limit;
@@ -108,3 +108,5 @@ export const getCompanyOrders = asyncHandler(async (req, res) => {
     },
   });
 });
+
+module.exports = { getAllOrders, getOrder, updateOrder, deleteOrder, getCompanyOrders, AddOrder };

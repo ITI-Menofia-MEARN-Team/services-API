@@ -1,9 +1,9 @@
-import express from 'express';
-import multer from 'multer';
-import ErrorAPI from '../utils/errorAPI.js';
+const express = require('express');
+const multer = require('multer');
+const ErrorAPI = require('../utils/errorAPI.js');
 const router = express.Router();
 
-import {
+const {
   addNewService,
   getAllServices,
   getService,
@@ -12,24 +12,24 @@ import {
   getCompanyServices,
   uploadSeriveImg,
   saveImgInDB,
-} from '../controllers/services.js';
-import {
+} = require('../controllers/services.js');
+const {
   addNewServiceValidator,
   getServiceValidator,
   deleteServiceValidator,
   updateServiceValidator,
-} from '../validations/service.js';
-import {
+} = require('../validations/service.js');
+const {
   isAllowed,
   isMine,
   verifyToken,
   isTheSameCompany,
   isMyService,
   isOrderAllowed,
-} from '../middlewares/auth.js';
-import Service from '../models/service.js';
-import { deleteImage } from '../middlewares/uploadImage.js';
-import { deleteExtraProps } from '../middlewares/handlePatchRequest.js';
+} = require('../middlewares/auth.js');
+const Service = require('../models/service.js');
+const { deleteImage } = require('../middlewares/uploadImage.js');
+const { deleteExtraProps } = require('../middlewares/handlePatchRequest.js');
 
 router
   .route('/')
@@ -65,4 +65,4 @@ router
   );
 
 router.route('/company/:id').get(getCompanyServices);
-export default router;
+module.exports = router;

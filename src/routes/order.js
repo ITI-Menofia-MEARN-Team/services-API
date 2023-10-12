@@ -1,28 +1,28 @@
-import { Router } from 'express';
-import {
+const { Router } = require('express');
+const {
   AddOrder,
   deleteOrder,
   getAllOrders,
   getCompanyOrders,
   getOrder,
   updateOrder,
-} from '../controllers/order.js';
+} = require('../controllers/order.js');
 
-import {
+const {
   getOrderValidator,
   createOrderValidator,
   updateOrderValidator,
   deleteOrderValidator,
-} from '../validations/orders.js';
+} = require('../validations/orders.js');
 
-import {
+const {
   isAllowed,
   isMine,
   verifyToken,
   isTheSameCompany,
   isMyService,
   isOrderAllowed,
-} from '../middlewares/auth.js';
+} = require('../middlewares/auth.js');
 
 const router = Router();
 router
@@ -40,4 +40,4 @@ router
   .route('/company/:id')
   .get(verifyToken, isAllowed('Company', 'Admin'), isMine, getCompanyOrders);
 
-export default router;
+module.exports = router;
