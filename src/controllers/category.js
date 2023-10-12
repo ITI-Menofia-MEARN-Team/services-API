@@ -1,8 +1,8 @@
-import asyncHandler from 'express-async-handler';
-import CategoryModel from '../models/category.js';
-import ErrorApi from '../utils/errorAPI.js';
+const asyncHandler = require('express-async-handler');
+const CategoryModel = require('../models/category.js');
+const ErrorApi = require('../utils/errorAPI.js');
 
-export const getAllCategories = asyncHandler(async (req, res) => {
+const getAllCategories = asyncHandler(async (req, res) => {
   const page = req.query.page * 1 || 1;
   const limit = req.query.limit * 1 || 100;
   const skip = (page - 1) * limit;
@@ -16,7 +16,7 @@ export const getAllCategories = asyncHandler(async (req, res) => {
   });
 });
 
-export const AddCategory = asyncHandler(async (req, res) => {
+const AddCategory = asyncHandler(async (req, res) => {
   //create category
   const newCategory = await CategoryModel.create(req.body);
   res.status(201).json({
@@ -27,7 +27,7 @@ export const AddCategory = asyncHandler(async (req, res) => {
   });
 });
 
-export const getCategory = asyncHandler(async (req, res, next) => {
+const getCategory = asyncHandler(async (req, res, next) => {
   const category = await CategoryModel.findById(req.params.id);
   if (category) {
     res.json(category);
@@ -36,7 +36,7 @@ export const getCategory = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const deleteCategory = asyncHandler(async (req, res, next) => {
+const deleteCategory = asyncHandler(async (req, res, next) => {
   const category = await CategoryModel.findByIdAndRemove(req.params.id);
   if (!category) {
     return next(new ErrorApi(`فئة غير موجودة ${req.params.id}`, 404));
@@ -47,7 +47,7 @@ export const deleteCategory = asyncHandler(async (req, res, next) => {
   }
 });
 
-export const updateCategory = asyncHandler(async (req, res, next) => {
+const updateCategory = asyncHandler(async (req, res, next) => {
   const category = await CategoryModel.findByIdAndUpdate(
     req.params.id,
     {
@@ -64,3 +64,4 @@ export const updateCategory = asyncHandler(async (req, res, next) => {
     res.json(category);
   }
 });
+module.exports = { getAllCategories, getCategory, AddCategory, deleteCategory, updateCategory };

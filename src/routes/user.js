@@ -1,5 +1,5 @@
-import express from 'express';
-import {
+const express = require('express');
+const {
   getAllUsers,
   addUser,
   getUser,
@@ -8,17 +8,17 @@ import {
   uploadUserImage,
   saveImgInDB,
   updateSaveImgInDB,
-} from '../controllers/user.js';
-import {
+} = require('../controllers/user.js');
+const {
   addUserValidator,
   getUserValidator,
   deleteUserValidator,
   updateUserValidator,
-} from '../validations/user.js';
-import { isAllowed, isMine, verifyToken } from '../middlewares/auth.js';
-import { removeUsernameAndEmail } from '../middlewares/handlePatchRequest.js';
-import { deleteImage } from '../middlewares/uploadImage.js';
-import UserModel from '../models/user.js';
+} = require('../validations/user.js');
+const { isAllowed, isMine, verifyToken } = require('../middlewares/auth.js');
+const { removeUsernameAndEmail } = require('../middlewares/handlePatchRequest.js');
+const { deleteImage } = require('../middlewares/uploadImage.js');
+const UserModel = require('../models/user.js');
 
 const router = express.Router();
 
@@ -48,4 +48,4 @@ router
     updateUser,
   );
 
-export default router;
+module.exports = router;

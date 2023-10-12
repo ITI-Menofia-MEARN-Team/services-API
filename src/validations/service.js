@@ -1,7 +1,7 @@
-import { check } from 'express-validator';
-import validation from '../middlewares/validate.js';
+const { check } = require('express-validator');
+const validation = require('../middlewares/validate.js');
 
-export const addNewServiceValidator = [
+const addNewServiceValidator = [
   check('title')
     .trim()
     .notEmpty()
@@ -51,17 +51,17 @@ export const addNewServiceValidator = [
   validation,
 ];
 
-export const getServiceValidator = [
+const getServiceValidator = [
   check('id').isMongoId().withMessage('رقم تعريفى غير صالح'),
   validation,
 ];
 
-export const deleteServiceValidator = [
+const deleteServiceValidator = [
   check('id').isMongoId().withMessage('رقم تعريفى غير صالح'),
   validation,
 ];
 
-export const updateServiceValidator = [
+const updateServiceValidator = [
   check('id').isMongoId().withMessage('رقم تعريفى غير صالح'),
   check('title')
     .optional()
@@ -107,3 +107,10 @@ export const updateServiceValidator = [
     }),
   validation,
 ];
+
+module.exports = {
+  addNewServiceValidator,
+  updateServiceValidator,
+  deleteServiceValidator,
+  getServiceValidator,
+};

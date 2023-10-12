@@ -1,11 +1,10 @@
-import express from 'express';
-import jwt from 'jsonwebtoken';
-import asyncHandler from 'express-async-handler';
-import ErrorApi from '../utils/errorAPI.js';
-import Service from '../models/service.js';
-import OrderModel from '../models/order.js';
+const jwt = require('jsonwebtoken');
+const asyncHandler = require('express-async-handler');
+const ErrorApi = require('../utils/errorAPI.js');
+const Service = require('../models/service.js');
+const OrderModel = require('../models/order.js');
 
-export const verifyToken = asyncHandler(async (req, res, next) => {
+const verifyToken = asyncHandler(async (req, res, next) => {
   const token = req.headers['token'];
   if (!token) {
     return next(new ErrorApi(`يجب عليك تسجيل الدخول أولا `, 401));
@@ -20,7 +19,7 @@ export const verifyToken = asyncHandler(async (req, res, next) => {
   return next();
 });
 
-export const isAllowed =
+const isAllowed =
   (...roles) =>
   (req, res, next) => {
     if (roles.includes(req.currentUser.role)) {
@@ -28,18 +27,18 @@ export const isAllowed =
     } else return next(new ErrorApi('ليس لك صلاحية للدخول لهذه الصفحة '));
   };
 
-export const isMine = asyncHandler(async (req, res, next) => {
+const isMine = asyncHandler(async (req, res, next) => {
   if (req.currentUser.role === 'Admin') next();
   else if (req.params.id === req.currentUser.id) return next();
   else return next(new ErrorApi('ليس لك صلاحية للدخول لهذه الصفحة '));
 });
 
-export const isTheSameCompany = asyncHandler(async (req, res, next) => {
+const isTheSameCompany = asyncHandler(async (req, res, next) => {
   if (req.currentUser.role === 'Admin') return next();
   else if (req.body.company === req.currentUser.id) return next();
   else return next(new ErrorApi('ليس لك صلاحية للدخول لهذه الصفحة '));
 });
-export const isMyService = asyncHandler(async (req, res, next) => {
+const isMyService = asyncHandler(async (req, res, next) => {
   if (req.currentUser.role === 'Admin') return next();
 
   const service = await Service.findById(req.params.id);
@@ -49,7 +48,7 @@ export const isMyService = asyncHandler(async (req, res, next) => {
   else return next(new ErrorApi('ليس لك صلاحية للدخول لهذه الصفحة '));
 });
 
-export const isOrderAllowed = asyncHandler(async (req, res, next) => {
+const isOrderAllowed = asyncHandler(async (req, res, next) => {
   if (req.currentUser.role === 'Admin') return next();
   const order = await OrderModel.findById(req.params.id);
   const userId = order.user;
@@ -59,3 +58,12 @@ export const isOrderAllowed = asyncHandler(async (req, res, next) => {
     return next();
   } else return next(new ErrorApi('ليس لك صلاحية للدخول لهذه الصفحة '));
 });
+
+module.exports = {
+  isAllowed,
+  isMine,
+  isMyService,
+  isTheSameCompany,
+  isOrderAllowed,
+  verifyToken,
+};

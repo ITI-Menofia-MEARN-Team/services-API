@@ -2,10 +2,9 @@
   "name": "services-api",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
-  "type": "module",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon src/index.js",
+    "start": "nodemon app.js",
     "format": "prettier --write ."
   },
   "keywords": [],

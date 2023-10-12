@@ -1,10 +1,9 @@
-import asyncHandler from 'express-async-handler';
+const asyncHandler = require('express-async-handler');
+const UserModel = require('../models/user.js');
+const Service = require('../models/service.js');
+const ExtraPropModel = require('../models/extraProp.js');
 
-import UserModel from '../models/user.js';
-import Service from '../models/service.js';
-import ExtraPropModel from '../models/extraProp.js';
-
-export const removeUsernameAndEmail = asyncHandler(async (req, res, next) => {
+const removeUsernameAndEmail = asyncHandler(async (req, res, next) => {
   // Remove username and email from req.body
 
   const userId = req.params['id'];
@@ -15,7 +14,7 @@ export const removeUsernameAndEmail = asyncHandler(async (req, res, next) => {
   next();
 });
 
-export const deleteExtraProps = asyncHandler(async (req, res, next) => {
+const deleteExtraProps = asyncHandler(async (req, res, next) => {
   const currentService = await Service.findById(req.params.id);
 
   const extraPropsArray = currentService.extra_props;
@@ -26,3 +25,8 @@ export const deleteExtraProps = asyncHandler(async (req, res, next) => {
   );
   next();
 });
+
+module.exports = {
+  deleteExtraProps,
+  removeUsernameAndEmail,
+};

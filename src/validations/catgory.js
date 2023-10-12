@@ -1,11 +1,12 @@
-import { check } from 'express-validator';
-import validation from '../middleware/validate.js';
-export const getCategoryValidator = [
+const { check } = require('express-validator');
+const validation = require('../middlewares/validate.js');
+
+const getCategoryValidator = [
   check('id').isMongoId().withMessage('رقم تعريف غير صالح'),
   validation,
 ];
 
-export const createCategoryValidator = [
+const createCategoryValidator = [
   check('name')
     .notEmpty()
     .withMessage('اسم الفئة مطلوب')
@@ -15,7 +16,7 @@ export const createCategoryValidator = [
   validation,
 ];
 
-export const updateCategoryValidator = [
+const updateCategoryValidator = [
   check('id').isMongoId().withMessage('رقم تعريف غير صالح'),
   check('name')
     .notEmpty()
@@ -26,7 +27,13 @@ export const updateCategoryValidator = [
   validation,
 ];
 
-export const deleteCategoryValidator = [
+const deleteCategoryValidator = [
   check('id').isMongoId().withMessage('رقم تعريف غير صالح'),
   validation,
 ];
+module.exports = {
+  deleteCategoryValidator,
+  updateCategoryValidator,
+  createCategoryValidator,
+  getCategoryValidator,
+};

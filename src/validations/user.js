@@ -1,8 +1,8 @@
-import { check } from 'express-validator';
-import validation from '../middlewares/validate.js';
-import UserModel from '../models/user.js';
+const { check } = require('express-validator');
+const validation = require('../middlewares/validate.js');
+const UserModel = require('../models/user.js');
 
-export const addUserValidator = [
+const addUserValidator = [
   check('full_name')
     .trim()
     .notEmpty()
@@ -65,17 +65,14 @@ export const addUserValidator = [
   validation,
 ];
 
-export const getUserValidator = [
-  check('id').isMongoId().withMessage('رقم المستخدم غير صالح'),
-  validation,
-];
+const getUserValidator = [check('id').isMongoId().withMessage('رقم المستخدم غير صالح'), validation];
 
-export const deleteUserValidator = [
+const deleteUserValidator = [
   check('id').isMongoId().withMessage('رقم مستخدم غير صالح'),
   validation,
 ];
 
-export const updateUserValidator = [
+const updateUserValidator = [
   check('id').isMongoId().withMessage('رقم مستخدم غير صالح'),
   check('full_name')
     .optional()
@@ -142,7 +139,7 @@ export const updateUserValidator = [
 ];
 
 // Auth
-export const loginUserValidator = [
+const loginUserValidator = [
   check('username')
     .optional()
     .trim()
@@ -175,3 +172,11 @@ export const loginUserValidator = [
 
   validation,
 ];
+
+module.exports = {
+  loginUserValidator,
+  updateUserValidator,
+  deleteUserValidator,
+  getUserValidator,
+  addUserValidator,
+};

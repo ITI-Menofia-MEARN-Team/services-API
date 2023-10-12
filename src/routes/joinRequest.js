@@ -1,5 +1,5 @@
-import express from 'express';
-import {
+const express = require('express');
+const {
   getAllRequests,
   addRequest,
   getRequest,
@@ -8,14 +8,14 @@ import {
   uploadUserImage,
   saveImgInDB,
   addUserToDb,
-} from '../controllers/joinRequest.js';
-import { isAllowed, verifyToken } from '../middlewares/auth.js';
-import {
+} = require('../controllers/joinRequest.js');
+const { isAllowed, verifyToken } = require('../middlewares/auth.js');
+const {
   addRequestValidator,
   getRequestValidator,
   deleteRequestValidator,
   updateRequestValidator,
-} from '../validations/joinRequest.js';
+} = require('../validations/joinRequest.js');
 const router = express.Router();
 router
   .route('/')
@@ -29,4 +29,4 @@ router
   .patch(verifyToken, isAllowed('Admin'), updateRequestValidator, updateRequest)
   .post(verifyToken, isAllowed('Admin'), addUserToDb);
 
-export default router;
+module.exports = router;

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const ExtraPropSchema = new mongoose.Schema(
   {
@@ -16,4 +16,4 @@ const ExtraPropSchema = new mongoose.Schema(
   },
 );
 const ExtraPropModel = mongoose.model('ExtraProp', ExtraPropSchema);
-export default ExtraPropModel;
+module.exports = ExtraPropModel;

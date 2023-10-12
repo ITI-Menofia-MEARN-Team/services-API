@@ -1,8 +1,8 @@
-import { check } from 'express-validator';
-import validation from '../middlewares/validate.js';
-import JoinModel from '../models/joinRequest.js';
+const { check } = require('express-validator');
+const validation = require('../middlewares/validate.js');
+const JoinModel = require('../models/joinRequest.js');
 
-export const addRequestValidator = [
+const addRequestValidator = [
   check('full_name')
     .trim()
     .notEmpty()
@@ -49,17 +49,14 @@ export const addRequestValidator = [
   validation,
 ];
 
-export const getRequestValidator = [
+const getRequestValidator = [check('id').isMongoId().withMessage('رقم طلب غير صالح'), validation];
+
+const deleteRequestValidator = [
   check('id').isMongoId().withMessage('رقم طلب غير صالح'),
   validation,
 ];
 
-export const deleteRequestValidator = [
-  check('id').isMongoId().withMessage('رقم طلب غير صالح'),
-  validation,
-];
-
-export const updateRequestValidator = [
+const updateRequestValidator = [
   check('id').isMongoId().withMessage('رقم طلب غير صالح'),
   check('full_name')
     .optional()
@@ -109,3 +106,9 @@ export const updateRequestValidator = [
   check('social_links').optional().isString().withMessage('رابط غير صالح'),
   validation,
 ];
+module.exports = {
+  addRequestValidator,
+  updateRequestValidator,
+  deleteRequestValidator,
+  getRequestValidator,
+};

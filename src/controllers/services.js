@@ -1,10 +1,10 @@
-import multer from 'multer';
-import asyncHandler from 'express-async-handler';
-import Service from '../models/service.js';
-import ErrorAPI from '../utils/errorAPI.js';
-import { uploadMixOfImages } from '../middlewares/uploadImage.js';
+const multer = require('multer');
+const asyncHandler = require('express-async-handler');
+const Service = require('../models/service.js');
+const ErrorAPI = require('../utils/errorAPI.js');
+const { uploadMixOfImages } = require('../middlewares/uploadImage.js');
 
-const uploadSeriveImg = uploadMixOfImages('images', 4, 'src/uploads/service', 'service');
+const uploadSeriveImg = uploadMixOfImages('images', 4, 'uploads/service', 'service');
 // const uploadSeriveImg = upload.array('images', 4);
 
 const saveImgInDB = (req, res, next) => {
@@ -117,7 +117,7 @@ const getCompanyServices = asyncHandler(async (req, res) => {
   });
 });
 
-export {
+module.exports = {
   addNewService,
   getAllServices,
   getService,

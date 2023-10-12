@@ -1,10 +1,10 @@
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
 dotenv.config();
 
 // Database Connection
-export const connection = () =>
+const connection = () =>
   mongoose
     .connect(process.env.DB_URI)
     .then((conn) => {
@@ -15,3 +15,5 @@ export const connection = () =>
         err,
       }),
     );
+
+module.exports = { connection };

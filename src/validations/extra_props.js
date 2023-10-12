@@ -1,11 +1,9 @@
-import { check } from 'express-validator';
-import validation from '../middleware/validate.js';
-export const getPropsValidator = [
-  check('id').isMongoId().withMessage('رقم تعريف غير صالح'),
-  validation,
-];
+const { check } = require('express-validator');
 
-export const createPropsValidator = [
+const validation = require('../middlewares/validate.js');
+const getPropsValidator = [check('id').isMongoId().withMessage('رقم تعريف غير صالح'), validation];
+
+const createPropsValidator = [
   check('price').notEmpty().withMessage('السعر مطلوب'),
   check('description')
     .notEmpty()
@@ -15,7 +13,7 @@ export const createPropsValidator = [
   validation,
 ];
 
-export const updatePropsValidator = [
+const updatePropsValidator = [
   check('id').isMongoId().withMessage('رقم تعريف غير صالح'),
   check('price').notEmpty().withMessage('السعر مطلوب '),
   check('description')
@@ -26,7 +24,13 @@ export const updatePropsValidator = [
   validation,
 ];
 
-export const deletePropsValidator = [
+const deletePropsValidator = [
   check('id').isMongoId().withMessage('رقم تعريف غير صالح'),
   validation,
 ];
+module.exports = {
+  deletePropsValidator,
+  updatePropsValidator,
+  createPropsValidator,
+  getPropsValidator,
+};
