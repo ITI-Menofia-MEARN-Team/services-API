@@ -1,3 +1,4 @@
+const nodemailer = require('nodemailer');
 const asyncHandler = require('express-async-handler');
 const OrderModel = require('../models/order.js');
 const ErrorApi = require('../utils/errorAPI.js');
@@ -27,15 +28,45 @@ const getAllOrders = asyncHandler(async (req, res) => {
     },
   });
 });
-
 const AddOrder = asyncHandler(async (req, res, next) => {
-  const newOrder = await OrderModel.create(req.body);
-  res.status(201).json({
-    status: 'success',
-    data: {
-      order: newOrder,
-    },
-  });
+  try {
+    // Create a new order
+    const newOrder = await OrderModel.create(req.body);
+    const orderMail = newOrder.populate();
+
+    // Configure Nodemailer with Gmail SMTP settings
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'tt8967056@gmail.com',
+        pass: 'ywaq owod krhu sjox', // Replace with your Gmail App Password
+      },
+    });
+
+    // Compose and send the email
+    const info = await transporter.sendMail({
+      from: 'tt8967056@gmail.com', // Sender's Gmail address
+      to: 'abdelrhmanmohamed421@gmail.com', // Recipient's email address
+      subject: 'New Order',
+      text: `A new order has been placed:\n\n${JSON.stringify(orderMail, null, 2)}`,
+      html: `<p>A new order has been placed:</p><pre>${JSON.stringify(orderMail, null, 2)}</pre>`,
+    });
+
+    // Respond with a success status and the newly created order
+    res.status(201).json({
+      status: 'success',
+      data: {
+        order: newOrder,
+      },
+    });
+  } catch (error) {
+    // Handle errors appropriately, e.g., log the error and respond with an error status
+    console.error('Error creating order and sending email:', error);
+    res.status(500).json({
+      status: 'error',
+      message: 'Internal server error',
+    });
+  }
 });
 
 const getOrder = asyncHandler(async (req, res, next) => {
