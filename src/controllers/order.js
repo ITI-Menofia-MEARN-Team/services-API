@@ -53,14 +53,6 @@ const AddOrder = asyncHandler(async (req, res, next) => {
     const extra_props = orderMail.extra_props;
     const total_price = orderMail.total_price;
 
-    console.log('5555 ', {
-      user,
-      service,
-      company,
-      extra_props,
-      total_price,
-    });
-
     const emailTemplate = await ejs.renderFile(path.join(__dirname, '../utils/baseEmail.ejs'), {
       user,
       service,
@@ -69,7 +61,7 @@ const AddOrder = asyncHandler(async (req, res, next) => {
       total_price,
     });
 
-    console.log('orderMail: ', orderMail);
+    // console.log('orderMail: ', orderMail);
     // Configure Nodemailer with Gmail SMTP settings
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
