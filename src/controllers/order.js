@@ -1,4 +1,7 @@
 const nodemailer = require('nodemailer');
+const path = require('path');
+const ejs = require('ejs');
+
 const asyncHandler = require('express-async-handler');
 const OrderModel = require('../models/order.js');
 const ErrorApi = require('../utils/errorAPI.js');
@@ -29,11 +32,44 @@ const getAllOrders = asyncHandler(async (req, res) => {
   });
 });
 const AddOrder = asyncHandler(async (req, res, next) => {
+  const newOrder = await OrderModel.create(req.body);
   try {
     // Create a new order
-    const newOrder = await OrderModel.create(req.body);
-    const orderMail = newOrder.populate();
+    const orderMail = await OrderModel.findById(newOrder._id)
+      .populate({ path: 'user', select: '-password -_id' })
+      .populate({
+        path: 'company',
+        select: '-password -_id',
+      })
+      .populate({ path: 'service', select: ' -_id' })
+      .populate({
+        path: 'extra_props',
+        select: '-_id',
+      });
 
+    const user = orderMail.user;
+    const company = orderMail.company;
+    const service = orderMail.service;
+    const extra_props = orderMail.extra_props;
+    const total_price = orderMail.total_price;
+
+    console.log('5555 ', {
+      user,
+      service,
+      company,
+      extra_props,
+      total_price,
+    });
+
+    const emailTemplate = await ejs.renderFile(path.join(__dirname, '../utils/baseEmail.ejs'), {
+      user,
+      service,
+      company,
+      extra_props,
+      total_price,
+    });
+
+    console.log('orderMail: ', orderMail);
     // Configure Nodemailer with Gmail SMTP settings
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
@@ -46,27 +82,36 @@ const AddOrder = asyncHandler(async (req, res, next) => {
     // Compose and send the email
     const info = await transporter.sendMail({
       from: 'tt8967056@gmail.com', // Sender's Gmail address
-      to: 'abdelrhmanmohamed421@gmail.com', // Recipient's email address
-      subject: 'New Order',
-      text: `A new order has been placed:\n\n${JSON.stringify(orderMail, null, 2)}`,
-      html: `<p>A new order has been placed:</p><pre>${JSON.stringify(orderMail, null, 2)}</pre>`,
+      to: user.email, // Recipient's email address
+      subject: 'طلبك من عروض اسعار',
+      text: `طلب جديد تم استلامه`,
+      html: emailTemplate,
     });
 
-    // Respond with a success status and the newly created order
-    res.status(201).json({
-      status: 'success',
-      data: {
-        order: newOrder,
-      },
+    // Compose and send the email
+    const info2 = await transporter.sendMail({
+      from: 'tt8967056@gmail.com', // Sender's Gmail address
+      to: company.email, // Recipient's email address
+      subject: 'طلب جديد من عميل',
+      text: `طلب جديد تم استلامه`,
+      html: emailTemplate,
     });
   } catch (error) {
     // Handle errors appropriately, e.g., log the error and respond with an error status
     console.error('Error creating order and sending email:', error);
-    res.status(500).json({
+    return res.status(500).json({
       status: 'error',
-      message: 'Internal server error',
+      message: 'email error',
     });
   }
+
+  // Respond with a success status and the newly created order
+  res.status(201).json({
+    status: 'success',
+    data: {
+      order: newOrder,
+    },
+  });
 });
 
 const getOrder = asyncHandler(async (req, res, next) => {

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Cairo', sans-serif !important;
+            line-height: 1.5;
+            background-color: #e5e7eb;
+            box-sizing: border-box;
+            /* Use your desired background color */
+        }
+
+        .email-container {
+            max-width: 50rem;
+            margin: auto;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #f3f4f6;
+            /* text-align: center;   */
+        }
+
+        .email-flex-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 1rem;
+
+        }
+
+        .email-profile {
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 3rem;
+
+            padding: 1rem;
+            cursor: pointer;
+        }
+
+        .email-profile img {
+            margin: 0 2rem;
+            object-fit: cover;
+            border-radius: 1rem;
+            width: 5rem;
+            height: 5rem;
+            box-shadow: 0px 0px 20px -15px rgba(0, 0, 0, 1);
+
+        }
+
+        .email-company-name {
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+
+        .email-order-confirmation {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .email-message {
+            /* margin-bottom: 1rem; */
+        }
+
+        .email-details {
+            font-size: 1.25rem;
+            font-weight: bold;
+            /* margin-bottom: 0.5rem; */
+        }
+
+        .email-details ul {
+            list-style-type: square;
+            padding: 0 1rem;
+
+        }
+
+        .email-details li {
+            font-weight: 400;
+        }
+
+        .email-total {
+            margin-top: 0.5rem;
+        }
+
+        .email-shipping-address {
+            /* margin-top: 1rem; */
+        }
+
+        .thank-you {
+            margin-top: 2rem;
+        }
+
+        .email-greetings {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="email-container" lang="ar" dir="rtl">
+
+        <div class="email-flex-row">
+            <div class="email-profile">
+                <div>
+                    <img alt="profile" src="https://offers.softifytechs.com/uploads/user/<%= company.image[0]%>"
+                        class="" />
+                </div>
+                <div class="email-company-name">
+                    <%= company.full_name %>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="email-order-confirmation">تأكيد الطلب</h2>
+        <p class="email-message">عزيزي <%= user.full_name %>,</p>
+        <p class="email-message">شكرًا لطلبك. نحن سعداء لإعلامك بأن طلبك قد تم استلامه ويتم معالجته الآن.</p>
+        <div class="email-details">
+            <h3 class="">تفاصيل الطلب</h3>
+            <p class="">
+                <span>
+                    <%= service.title %>
+                </span>
+                <span
+                    style="margin-right: 5px; background-color: #4c66af; color: white;  border-radius: 0.25rem; padding: 2px;">
+                    <%= service.price %> جنيه
+                </span>
+            </p>
+            <p style="font-size: 16px; font-weight: normal;">
+                <%= service.description %>
+            </p>
+
+
+            <ul>
+                <% for (let i=0; i < service.props.length; i++) { %>
+                    <li>
+                        <span>
+                            <%= service.props[i] %>
+                        </span>
+                        <span
+                            style="margin-right: 5px; background-color: #4CAF50; color: white;  border-radius: 0.25rem; padding: 2px;">
+
+                            مجانا
+                        </span>
+                    </li>
+                    <% } %>
+            </ul>
+            <ul>
+                <% for (let i=0; i < extra_props.length; i++) { %>
+                    <li class="">
+                        <span>
+                            <%= extra_props[i].description %>
+                        </span>
+                        <span
+                            style="margin-right: 5px; background-color: #c07333; color: white;  border-radius: 0.25rem; padding: 2px;">
+                            <%= extra_props[i].price %> جنيه
+                        </span>
+                    </li>
+                    <% } %>
+            </ul>
+            <p class="email-total" style="text-align: center; padding-top: 20px;">
+                <span style="">
+                    الإجمالي:
+                </span>
+                <span
+                    style="margin-right: 5px; background-color: #4caf50; color: white;  border-radius: 0.25rem; padding: 2px;">
+                    <%= total_price %> جنيه
+                </span>
+            </p>
+        </div>
+
+
+
+        <p>شكرًا!</p>
+
+        <p>أطيب التحيات,<br>
+            <%= company.full_name %>
+        </p>
+
+    </div>
+
+</body>
+
+</html>

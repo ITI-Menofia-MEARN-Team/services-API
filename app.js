@@ -32,6 +32,52 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cors());
 app.use(express.json());
 
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+
+// Set the views directory
+app.set('views', path.join(__dirname, 'src/utils'));
+
+// Endpoint to render the EJS template
+app.get('/orderEmail', (req, res) => {
+  // Example data (replace with your actual data)
+
+  const user = {
+    full_name: 'محمد محمود',
+    username: 'mohamedM',
+    email: 'hassaneymar11@gmail.com',
+    image: ['profie.jpg'],
+    phone_number: null,
+  };
+  const company = {
+    full_name: 'شركة فلاتر',
+    username: 'amr12345',
+    email: 'amr@gmail.con',
+    image: ['user-1696011936779.jpeg'],
+    phone_number: null,
+  };
+
+  const service = {
+    title: 'صيانة بوتاجازات',
+    description:
+      'توفر الشركة العالمية لصيانة وتصليح البوتاجازات مجموعة من الفنيين المهرة والمدربين على أعلى مستوي كما توفر لهؤلاء الفنيين أحدث المعدات وذلك للقيام بصيانة البوتاجاز على أفضل نحو وبأسرع وقت وأعلى جودة.',
+    price: 500,
+    images: ['service-1696024568617.jpeg'],
+    props: ['صيانة جميع انواع البوتاجازات'],
+  };
+
+  const extra_props = [
+    {
+      price: 500,
+      description: 'صيانة فورى',
+    },
+  ];
+
+  const total_price = 1000;
+  // Render the EJS template and send it as the response
+  res.render('baseEmail', { user, service, company, extra_props, total_price });
+});
+
 // Define a route to send the blob image
 app.post('/image', (req, res) => {
   // Get the image path from the query parameter
@@ -71,6 +117,9 @@ app.post('/image', (req, res) => {
 });
 
 // Routes
+// app.use('/offers_api', () => {
+//   res.send('helloooooooooooooooooooooooooooooo');
+// });
 app.use('/order', orderRouter);
 app.use('/service', servicesRouter);
 app.use('/user', userRouter);
