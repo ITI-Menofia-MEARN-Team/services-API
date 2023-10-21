@@ -1,6 +1,10 @@
 const nodemailer = require('nodemailer');
 const path = require('path');
 const ejs = require('ejs');
+const dotenv = require('dotenv');
+
+// Configuration
+dotenv.config();
 
 const asyncHandler = require('express-async-handler');
 const OrderModel = require('../models/order.js');
@@ -66,14 +70,14 @@ const AddOrder = asyncHandler(async (req, res, next) => {
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
       auth: {
-        user: 'tt8967056@gmail.com',
-        pass: 'ywaq owod krhu sjox', // Replace with your Gmail App Password
+        user: process.env.GMAIL_ACCOUNT,
+        pass: process.env.GMAIL_PASSWORD,
       },
     });
 
     // Compose and send the email
     const info = await transporter.sendMail({
-      from: 'tt8967056@gmail.com', // Sender's Gmail address
+      from: process.env.GMAIL_ACCOUNT, // Sender's Gmail address
       to: user.email, // Recipient's email address
       subject: 'طلبك من عروض اسعار',
       text: `طلب جديد تم استلامه`,
@@ -82,7 +86,7 @@ const AddOrder = asyncHandler(async (req, res, next) => {
 
     // Compose and send the email
     const info2 = await transporter.sendMail({
-      from: 'tt8967056@gmail.com', // Sender's Gmail address
+      from: process.env.GMAIL_ACCOUNT, // Sender's Gmail address
       to: company.email, // Recipient's email address
       subject: 'طلب جديد من عميل',
       text: `طلب جديد تم استلامه`,
