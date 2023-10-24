@@ -69,6 +69,9 @@ const AddOrder = asyncHandler(async (req, res, next) => {
     // Configure Nodemailer with Gmail SMTP settings
     const transporter = nodemailer.createTransport({
       service: 'Gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.GMAIL_ACCOUNT,
         pass: process.env.GMAIL_PASSWORD,
