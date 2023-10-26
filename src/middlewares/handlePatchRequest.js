@@ -10,6 +10,8 @@ const removeUsernameAndEmail = asyncHandler(async (req, res, next) => {
   const user = await UserModel.findById(userId);
   if (user.username === req.body.username) delete req.body.username;
   if (user.email === req.body.email) delete req.body.email;
+  if (user.full_name === req.body.full_name) delete req.body.full_name;
+  if (user.phone_number === req.body.phone_number) delete req.body.phone_number;
 
   next();
 });
