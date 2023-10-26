@@ -48,7 +48,10 @@ const addUserValidator = [
     .withMessage(
       'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، مع حرف صغير وحرف كبير ورقم واحد على الأقل',
     ),
-  check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
+  check('phone_number')
+    .optional()
+    .matches(/^(?:(\+2015|\+2011|\+2012|\+2010|011|012|010|015)[0-9]{8})$/)
+    .withMessage('رقم هاتف غير صالح'),
   check('image')
     .optional()
     .isArray()
@@ -122,7 +125,10 @@ const updateUserValidator = [
     .withMessage(
       'يجب أن تتكون كلمة المرور من 8 أحرف على الأقل، مع حرف صغير وحرف كبير ورقم واحد على الأقل',
     ),
-  check('phone_number').optional().isMobilePhone().withMessage('رقم هاتف غير صالح'),
+  check('phone_number')
+    .optional()
+    .matches(/^(?:(\+2015|\+2011|\+2012|\+2010|011|012|010|015)[0-9]{8})$/)
+    .withMessage('رقم هاتف غير صالح'),
   check('image')
     .optional()
     .isArray()

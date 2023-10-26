@@ -19,7 +19,7 @@ const saveImgInDB = (req, res, next) => {
   next();
 };
 const registerUser = asyncHandler(async (req, res, next) => {
-  const { full_name, email, password, username, phoneNumber, image } = req.body;
+  const { full_name, email, password, username, phone_number, image } = req.body;
 
   const hashedPassword = await bcrypt.hash(password, 8);
 
@@ -28,7 +28,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
     email: email.toLowerCase(),
     password: hashedPassword,
     username,
-    phoneNumber,
+    phone_number,
     image,
   });
   const token = jwt.sign(
